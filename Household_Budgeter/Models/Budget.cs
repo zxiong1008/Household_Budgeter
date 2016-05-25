@@ -103,7 +103,7 @@ namespace Household_Budgeter.Models
     }
 
     public class Category
-    {
+    { 
         public Category()
         {
             this.Households = new HashSet<Household>();
