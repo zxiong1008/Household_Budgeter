@@ -22,8 +22,6 @@ namespace Household_Budgeter.Models
 
         public virtual ICollection<ApplicationUser> Members { get; set; }
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
-        //already in ACCOUNTS, dont need to ask twice
-        //public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Budget> Budgets { get; set; }
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Invitation> Invitations { get; set; }
@@ -51,6 +49,7 @@ namespace Household_Budgeter.Models
 
     public class Transaction
     {
+
         public int Id { get; set; }
         public int AccountId { get; set; }
         public string Description { get; set; }
@@ -64,12 +63,10 @@ namespace Household_Budgeter.Models
         public decimal? ReconciledAmount { get; set; }
         public int CategoryId { get; set; }
         public bool Reconciled { get; set; }
-        //userId
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
         public virtual Category Categories { get; set; }
-        //public virtual BankAccount BankAccounts { get; set; }
         public virtual TransactionType TransactionTypes { get; set; }
     }
 
@@ -77,14 +74,12 @@ namespace Household_Budgeter.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
     }
 
     public class Budget
     {
         public Budget()
         {
-            //this.Transactions = new HashSet<Transaction>();
             this.BudgetItems = new HashSet<BudgetItem>();
         }
         public int Id { get; set; }
@@ -109,16 +104,12 @@ namespace Household_Budgeter.Models
     }
 
     public class Category
-<<<<<<< HEAD
-    { 
+    {
         public Category()
         {
             this.Households = new HashSet<Household>();
         }
 
-=======
-    {
->>>>>>> parent of fecba42... Model Update
         public int Id { get; set; }
         public string Name { get; set; }
 
