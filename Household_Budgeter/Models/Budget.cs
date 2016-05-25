@@ -13,9 +13,9 @@ namespace Household_Budgeter.Models
         {
             this.Members = new HashSet<ApplicationUser>();
             this.BankAccounts = new HashSet<BankAccount>();
-            this.Transactions = new HashSet<Transaction>();
+            //this.Transactions = new HashSet<Transaction>();
             this.Budgets = new HashSet<Budget>();
-            this.BudgetItems = new HashSet<BudgetItem>();
+            //this.BudgetItems = new HashSet<BudgetItem>();
             this.Categories = new HashSet<Category>();
             this.Invitations = new HashSet<Invitation>();
         }
@@ -24,9 +24,9 @@ namespace Household_Budgeter.Models
 
         public virtual ICollection<ApplicationUser> Members { get; set; }
         public virtual ICollection<BankAccount> BankAccounts { get; set; }
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        //already in ACCOUNTS, dont need to ask twice
+        //public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Budget> Budgets { get; set; }
-        public virtual ICollection<BudgetItem> BudgetItems { get; set; }
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Invitation> Invitations { get; set; }
     }
@@ -44,11 +44,12 @@ namespace Household_Budgeter.Models
         public DateTimeOffset Created { get; set; }
 
         public decimal Balance { get; set; }
+        public decimal InitialBalance { get; set; }
         public decimal ReconcileBalance { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }
-        public virtual Household HouseHold { get; set; }
-        public Transaction GetTransactions { get; set; }
+        //public virtual Household HouseHold { get; set; }
+        //public Transaction GetTransactions { get; set; }
     }
 
     public class Transaction
@@ -59,31 +60,41 @@ namespace Household_Budgeter.Models
         public DateTimeOffset Date { get; set; }
 
         [Required]
+        //debit/credit
         public bool Types { get; set; }
 
         public decimal Amount { get; set; }
+        public decimal? ReconciledAmount { get; set; }
         public int CategoryId { get; set; }
         public bool Reconciled { get; set; }
+        //userId
         public string EntryId { get; set; }
-        public decimal? ReconciledAmount { get; set; }
 
         public virtual ApplicationUser Entry { get; set; }
         public virtual Category Category { get; set; }
         public virtual BankAccount BankAccount { get; set; }
     }
 
+    public class TransactionType
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public virtual Transaction Transactions { get; set; }
+    }
+
     public class Budget
     {
         public Budget()
         {
-            this.Transactions = new HashSet<Transaction>();
+            //this.Transactions = new HashSet<Transaction>();
             this.BudgetItems = new HashSet<BudgetItem>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
         public int HouseHoldId { get; set; }
 
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        //public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<BudgetItem> BudgetItems { get; set; }
         public virtual Household Household {get; set;}
     }
@@ -91,10 +102,10 @@ namespace Household_Budgeter.Models
     //BudgetItem income and expenses
     public class BudgetItem
     {
-        public BudgetItem()
-        {
-            this.Transactions = new HashSet<Transaction>();
-        }
+        //public BudgetItem()
+        //{
+        //    this.Transactions = new HashSet<Transaction>();
+        //}
         public int Id { get; set; }
         public int BudgetId { get; set; }
         public int CategoryId { get; set; }
@@ -102,7 +113,7 @@ namespace Household_Budgeter.Models
         public decimal Amount { get; set; }
         public virtual Budget Budget { get; set; }
         public virtual Category Category { get; set; }
-        public virtual ICollection<Transaction> Transactions { get; set; }
+        //public virtual ICollection<Transaction> Transactions { get; set; }
     }
 
     public class Category
@@ -110,24 +121,13 @@ namespace Household_Budgeter.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<BudgetItem> BudgetItems { get; set; }
         public virtual ICollection<Household> Households { get; set; }
-        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 
-    public class Invite
+    public class DefaultCategory
     {
         public int Id { get; set; }
-        public string NameId { get; set; }
-        public int HouseholdId { get; set; }
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        public string UserEmail { get; set; }
-        [Required]
-        public string InviteCode { get; set; }
-
-        public virtual Household Household { get; set; }
-        public virtual ApplicationUser Name { get; set; }
+        public string Name { get; set; }
     }
 
     //need an inviation object that has householdid and userid for current logged user
@@ -154,8 +154,6 @@ namespace Household_Budgeter.Models
         public string UserId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-
-        public virtual ApplicationUser User { get; set; }
     }
 
     public class DemoLogin

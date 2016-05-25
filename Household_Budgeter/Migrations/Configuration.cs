@@ -17,18 +17,18 @@ namespace Household_Budgeter.Migrations
 
         protected override void Seed(Household_Budgeter.Models.ApplicationDbContext context)
         {
-            string[] categories =
+            string[] D_Categories =
             {
                 "Automobile", "Bank charges", "Childcare", "Clothing", "Credit Card Fees", "Education",
                 "Events", "Food", "Flowers", "Gifts", "Household", "Healthcare", "Insurance", "Job expenses", "Leisure (daily/non-vacation)",
                 "Household", "Hobbies", "Loans", "Pet Care", "Savings", "Taxes", "Utilities", "Vacation"
             };
 
-            if (context.Categories.Count() == 0)
+            if (context.DefaultCategories.Count() == 0)
             {
-                foreach (var c in categories)
+                foreach (var c in D_Categories)
                 {
-                    context.Categories.Add(new Category { Name = c });
+                    context.DefaultCategories.Add(new DefaultCategory { Name = c });
                 }
             }
 
