@@ -13,6 +13,7 @@ namespace Household_Budgeter.Models
         public ApplicationUser()
         {
             this.Transactions = new HashSet<Transaction>();
+            this.Households = new HashSet<Household>();
         }
 
         public string FirstName { get; set; }
@@ -20,8 +21,7 @@ namespace Household_Budgeter.Models
         public int? HouseholdId { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }
-        public virtual Household Household { get; set; }
-
+        public virtual ICollection<Household> Households { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
