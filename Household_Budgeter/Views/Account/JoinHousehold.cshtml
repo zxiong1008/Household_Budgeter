@@ -1,0 +1,95 @@
+﻿@model Household_Budgeter.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Household_Budgeter - JoinHousehold";
+}
+
+
+<br />
+<div class="container">
+
+    <h1>Join Household</h1>
+    <hr />
+    <div class="container">
+        <div class="row">
+
+            @*<div class="col-md-6 pull-right ">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">About Households</h4>
+                    </div>
+                    <section class="panel-body">
+                        <table>
+                            <tr>
+                                Households are how we group accounts and users.
+                            </tr>
+                            <tr>
+                                Each user belongs to only 1 household, but the household can have many users.
+                            </tr>
+                            <tr>
+                                Each user in your household has full access to all account data.
+                            </tr>
+                        </table>
+
+                    </section>
+                </div>
+            </div>*@
+
+            <div class="col-md-6">
+                <div class="login-panel panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Join</h4>
+                    </div>
+                    <section class="panel-body ">
+
+                        @using (Html.BeginForm("JoinHousehold", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.FirstName)
+                                @Html.HiddenFor(m => m.FirstName)
+                                @Html.DisplayFor(m => m.FirstName, new { @class = "form-control", @placeholder = "First Name" })
+
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.LastName)
+                                @Html.HiddenFor(m => m.LastName)
+                                @Html.DisplayFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
+
+                            </div>
+                            <div class="form-group">
+                                @Html.HiddenFor(m => m.HouseholdId)
+                            </div>
+                            <div class="form-group">
+
+                            </div>
+                            <div class="form-group">
+                                <b>You are Joining Household</b>
+                                @Html.HiddenFor(m => m.HouseholdName)
+                                @Html.DisplayFor(m => m.HouseholdName)
+
+                            </div>
+
+                            <div class="form-group">
+                                <b>UserName</b>
+                                @Html.HiddenFor(m => m.Email)
+                                @Html.DisplayFor(m => m.Email)
+                            </div>
+
+                            @Html.HiddenFor(m => m.Password)
+                            @Html.HiddenFor(m => m.ConfirmPassword)
+
+
+                            <input type="submit" class="btn btn-info" value="Join" />
+                        }
+                    </section>
+
+                </div>
+            </div>
+        </div>
+        </div>
+
+    </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

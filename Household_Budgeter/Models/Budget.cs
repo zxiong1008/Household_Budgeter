@@ -109,16 +109,11 @@ namespace Household_Budgeter.Models
     }
 
     public class Category
-<<<<<<< HEAD
-    { 
+    {
         public Category()
         {
             this.Households = new HashSet<Household>();
         }
-
-=======
-    {
->>>>>>> parent of fecba42... Model Update
         public int Id { get; set; }
         public string Name { get; set; }
 

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Household_Budgeter.Models;
+using System.Data.Entity;
 
 namespace Household_Budgeter.Controllers
 {
@@ -66,6 +67,123 @@ namespace Household_Budgeter.Controllers
             {
                 _userManager = value;
             }
+        }
+
+        // registers the user from email invitation.
+        // GET: /Account/Register
+        [AllowAnonymous]
+        public ActionResult RegisterToJoinHousehold(int inviteHouseholdId, int invitationId, Guid guid)
+        {
+
+            RegisterViewModel model = new RegisterViewModel();
+
+            ApplicationDbContext db = new ApplicationDbContext();
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            Household HouseholdJoin = db.Households.FirstOrDefault(i => i.Id == inviteHouseholdId);
+            Invitation invited = db.Invitations.FirstOrDefault(i => i.Id == invitationId);
+
+            invited.JoinCode = guid;
+
+            model.HouseholdName = HouseholdJoin.Name;
+            model.HouseholdId = HouseholdJoin.Id;
+            model.Email = invited.ToEmail;
+
+
+            db.SaveChanges();
+            return View(model);
+        }
+
+        //
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterToJoinHousehold(RegisterViewModel model, int householdId)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    HouseholdId = householdId
+                };
+
+                var result = await UserManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    return RedirectToAction("Index", "Household");
+                }
+                AddErrors(result);
+            }
+
+            return View(model);
+        }
+
+        [Authorize]
+        //Get: Households/Join
+        public ActionResult JoinHousehold(int inviteHouseholdId)
+        {
+            RegisterViewModel model = new RegisterViewModel();
+
+            ApplicationDbContext db = new ApplicationDbContext();
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            Household HouseholdJoin = db.Households.FirstOrDefault(i => i.Id == inviteHouseholdId);
+
+            model.HouseholdName = HouseholdJoin.Name;
+            model.Email = user.Email;
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
+            model.Password = user.PasswordHash;
+            model.ConfirmPassword = user.PasswordHash;
+
+            if (model.HouseholdId == null)
+            {
+                model.HouseholdId = HouseholdJoin.Id;
+            }
+
+
+            db.SaveChanges();
+            return View(model);
+        }
+
+        // POST: /Account/Register
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult JoinHousehold(RegisterViewModel model/*, int inviteHouseholdId*/)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            //RegisterViewModel model = new RegisterViewModel();
+
+            var updatedUser = db.Users.Find(User.Identity.GetUserId());
+
+            if (ModelState.IsValid)
+            {
+
+                updatedUser.FirstName = model.FirstName;
+                updatedUser.LastName = model.LastName;
+                updatedUser.Email = model.Email;
+                updatedUser.UserName = model.Email;
+                updatedUser.HouseholdId = model.HouseholdId;
+
+                db.Entry(updatedUser).State = EntityState.Modified;
+
+                db.SaveChanges();
+                return RedirectToAction("Index", "Household");
+            }
+
+
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
 
         //

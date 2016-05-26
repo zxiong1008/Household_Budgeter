@@ -75,7 +75,7 @@ namespace BudgetYou.Controllers
                     inviteMessasge.From = new MailAddress(user.Email, "From");
                     inviteMessasge.Subject = "Household-Budget: Invitation to Join a Household";
 
-
+                    //if receiving user is registered, send join code
                     if (existingUser != null)
                     {
                         var callbackUrlForExistingUser = Url.Action("JoinHousehold", "Account", new { inviteHouseholdId = invitation.HouseholdId }, protocol: Request.Url.Scheme);
@@ -86,9 +86,9 @@ namespace BudgetYou.Controllers
                         inviteMessasge.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(bodytext, null, MediaTypeNames.Text.Html));
 
                     }
+                    //if receiving user is not registered, register user and send join code
                     else
                     {
-                        //var callbackUrl = Url.Action("Index", "Households", null, protocol: Request.Url.Scheme);
                         var callbackUrl = Url.Action("RegisterToJoinHousehold", "Account", new { inviteHouseholdId = invitation.HouseholdId, invitationId = invitation.Id, guid = invitation.JoinCode }, protocol: Request.Url.Scheme);
 
                         string html = String.Concat(@"<p>I would like to invite you to join my household <mark> ", household.Name,
@@ -105,7 +105,7 @@ namespace BudgetYou.Controllers
                     smtpClient.Send(inviteMessasge);
 
 
-                    return RedirectToAction("Dashboard", "Home");
+                    return RedirectToAction("Index", "Invitations");
 
                 }
                 catch (Exception ex)
