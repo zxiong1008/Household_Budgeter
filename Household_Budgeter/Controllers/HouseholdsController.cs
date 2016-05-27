@@ -27,7 +27,6 @@ namespace Household_Budgeter.Controllers
                 return RedirectToAction("Create", "Households");
             }
 
-
             return View(db.Households.Find(user.HouseholdId));
         }
 
@@ -132,10 +131,15 @@ namespace Household_Budgeter.Controllers
         public ActionResult Leave()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
+            Household household = db.Households.Find(user.HouseholdId);
+
+            //set user's house to null
+            //remove the user from the household list
             user.HouseholdId = null;
+            household.Members.Remove(user);
 
             db.SaveChanges();
-            return RedirectToAction("Create", "Household");
+            return RedirectToAction("Create", "Households");
         }
 
         // POST: Households/Delete/5

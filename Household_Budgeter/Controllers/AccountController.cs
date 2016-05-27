@@ -19,6 +19,8 @@ namespace Household_Budgeter.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        RegisterViewModel model = new RegisterViewModel();
+        ApplicationDbContext db = new ApplicationDbContext();
 
         //Action to display the username on navbar _LoginPartial.cshtml
         [ChildActionOnly]
@@ -74,10 +76,6 @@ namespace Household_Budgeter.Controllers
         [AllowAnonymous]
         public ActionResult RegisterToJoinHousehold(int inviteHouseholdId, int invitationId, Guid guid)
         {
-
-            RegisterViewModel model = new RegisterViewModel();
-
-            ApplicationDbContext db = new ApplicationDbContext();
             var user = db.Users.Find(User.Identity.GetUserId());
 
             Household HouseholdJoin = db.Households.FirstOrDefault(i => i.Id == inviteHouseholdId);
@@ -88,9 +86,8 @@ namespace Household_Budgeter.Controllers
             model.HouseholdName = HouseholdJoin.Name;
             model.HouseholdId = HouseholdJoin.Id;
             model.Email = invited.ToEmail;
-
-
             db.SaveChanges();
+
             return View(model);
         }
 
@@ -118,7 +115,7 @@ namespace Household_Budgeter.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    return RedirectToAction("Index", "Household");
+                    return RedirectToAction("Index", "Households");
                 }
                 AddErrors(result);
             }
@@ -130,14 +127,12 @@ namespace Household_Budgeter.Controllers
         //Get: Households/Join
         public ActionResult JoinHousehold(int inviteHouseholdId)
         {
-            RegisterViewModel model = new RegisterViewModel();
-
-            ApplicationDbContext db = new ApplicationDbContext();
+            
             var user = db.Users.Find(User.Identity.GetUserId());
 
-            Household HouseholdJoin = db.Households.FirstOrDefault(i => i.Id == inviteHouseholdId);
+            Household Household = db.Households.FirstOrDefault(i => i.Id == inviteHouseholdId);
 
-            model.HouseholdName = HouseholdJoin.Name;
+            model.HouseholdName = Household.Name;
             model.Email = user.Email;
             model.FirstName = user.FirstName;
             model.LastName = user.LastName;
@@ -146,11 +141,11 @@ namespace Household_Budgeter.Controllers
 
             if (model.HouseholdId == null)
             {
-                model.HouseholdId = HouseholdJoin.Id;
+                model.HouseholdId = Household.Id;
             }
-
-
             db.SaveChanges();
+
+
             return View(model);
         }
 
@@ -158,26 +153,31 @@ namespace Household_Budgeter.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult JoinHousehold(RegisterViewModel model/*, int inviteHouseholdId*/)
+        public ActionResult JoinHousehold(RegisterViewModel model, int? HouseholdId)
         {
             ApplicationDbContext db = new ApplicationDbContext();
-            //RegisterViewModel model = new RegisterViewModel();
+
+            //the get action, send to the view,
+            //the view form-group sends to the posts
+            //the hidden for name must match to be a paramater
+
+            Household Household = db.Households.FirstOrDefault(i => i.Id == HouseholdId);
 
             var updatedUser = db.Users.Find(User.Identity.GetUserId());
 
             if (ModelState.IsValid)
             {
+                Household.Members.Add(updatedUser);
 
                 updatedUser.FirstName = model.FirstName;
                 updatedUser.LastName = model.LastName;
                 updatedUser.Email = model.Email;
                 updatedUser.UserName = model.Email;
                 updatedUser.HouseholdId = model.HouseholdId;
-
                 db.Entry(updatedUser).State = EntityState.Modified;
 
                 db.SaveChanges();
-                return RedirectToAction("Index", "Household");
+                return RedirectToAction("Index", "Households");
             }
 
 

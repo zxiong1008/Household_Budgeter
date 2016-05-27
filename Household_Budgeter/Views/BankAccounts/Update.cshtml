@@ -1,10 +1,13 @@
 ﻿@model Household_Budgeter.Models.BankAccount
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Update";
 }
 
-<h2>Details</h2>
+<h2>Update</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 
     <table class="table">
         <tr>
@@ -29,6 +32,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReconcileBalance)
             </th>
+            <th></th>
         </tr>
         <tr>
             <td>
@@ -41,22 +45,36 @@
                 @Model.Created.ToString("D")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => Model.Balance)
+                @Html.EditorFor(modelItem => Model.Balance)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => Model.InitialBalance)
+                @Html.EditorFor(modelItem => Model.InitialBalance)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => Model.WarningBalance)
+                @Html.EditorFor(modelItem => Model.WarningBalance)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => Model.ReconcileBalance)
+                @Html.EditorFor(modelItem => Model.ReconcileBalance)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+                @Html.ActionLink("Update", "Update", new { id = Model.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = Model.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
             </td>
         </tr>
     </table>
 
-<p class="text-right">
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Update", "Update", new { id = Model.Id }) |
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+}
+
+
+
+
+<div>
     @Html.ActionLink("Back to List", "Index")
-</p>
+</div>

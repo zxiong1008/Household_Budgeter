@@ -27,6 +27,9 @@
             @Html.DisplayNameFor(model => model.InitialBalance)
         </th>
         <th>
+            Warning Balance
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.ReconcileBalance)
         </th>
         <th></th>
@@ -41,19 +44,23 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Created)
+            @item.Created.ToString("D")
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Balance)
+            @string.Format("{0:C}", item.Balance)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.InitialBalance)
+            @string.Format("{0:C}", item.InitialBalance)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ReconcileBalance)
+            @string.Format("{0:C}", item.WarningBalance)
+        </td>
+        <td>
+            @string.Format("{0:C}", item.ReconcileBalance)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Update", "Update", new { id = item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>

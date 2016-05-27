@@ -14,6 +14,7 @@ using Household_Budgeter.Models;
 
 namespace BudgetYou.Controllers
 {
+    [Authorize]
     public class InvitationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -80,8 +81,8 @@ namespace BudgetYou.Controllers
                     {
                         var callbackUrlForExistingUser = Url.Action("JoinHousehold", "Account", new { inviteHouseholdId = invitation.HouseholdId }, protocol: Request.Url.Scheme);
 
-                        string bodytext = String.Concat(@"<p>I would like to invite you to join my household <mark> ", household.Name,
-                                    " </mark>in the Household-Budget app budgeting system", "</p> <p><a href='"
+                        string bodytext = String.Concat("<p>I would like to invite you to join my household <mark>", household.Name,
+                                    "</mark> in the Household-Budget app budgeting system", "</p> <p><a href='"
                                     , callbackUrlForExistingUser, "'>Join</a></p>");
                         inviteMessasge.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(bodytext, null, MediaTypeNames.Text.Html));
 
@@ -91,8 +92,8 @@ namespace BudgetYou.Controllers
                     {
                         var callbackUrl = Url.Action("RegisterToJoinHousehold", "Account", new { inviteHouseholdId = invitation.HouseholdId, invitationId = invitation.Id, guid = invitation.JoinCode }, protocol: Request.Url.Scheme);
 
-                        string html = String.Concat(@"<p>I would like to invite you to join my household <mark> ", household.Name,
-                                        " </mark>in the Household-Budget app budgeting system.</p> <p><a href='", callbackUrl, "'>Join</a></p>");
+                        string html = String.Concat("<p>I would like to invite you to join my household <mark>", household.Name,
+                                        "</mark> in the Household-Budget app budgeting system.</p> <p><a href='", callbackUrl, "'>Join</a></p>");
 
 
                         inviteMessasge.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(html, null, MediaTypeNames.Text.Html));

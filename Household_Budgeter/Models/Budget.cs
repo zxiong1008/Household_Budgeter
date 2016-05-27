@@ -44,6 +44,7 @@ namespace Household_Budgeter.Models
         public decimal Balance { get; set; }
         public decimal InitialBalance { get; set; }
         public decimal ReconcileBalance { get; set; }
+        public decimal WarningBalance { get; set; }
 
         public virtual ICollection<Transaction> Transactions { get; set; }
 

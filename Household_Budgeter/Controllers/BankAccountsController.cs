@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Household_Budgeter.Controllers
 {
+    [Authorize]
     public class BankAccountsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -83,10 +84,10 @@ namespace Household_Budgeter.Controllers
             BankAccount bankAccount = db.BankAccounts.FirstOrDefault(b => b.Id == id);
             Household household = db.Households.FirstOrDefault(h => h.Id == bankAccount.HouseholdId);
 
-            if (!household.Members.Contains(user))
-            {
-                return RedirectToAction("Unauthorized", "Error");
-            }
+            //if (!household.Members.Contains(user))
+            //{
+            //    return RedirectToAction("Unauthorized", "Error");
+            //}
 
             if (id == null)
             {
@@ -124,6 +125,34 @@ namespace Household_Budgeter.Controllers
             return View(bankAccount);
         }
 
+        public ActionResult Update(int? id)
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            BankAccount bankAccount = db.BankAccounts.FirstOrDefault(b => b.Id == id);
+            Household household = db.Households.FirstOrDefault(h => h.Id == bankAccount.HouseholdId);
+
+            return View(bankAccount);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update([Bind(Include = "Id,HouseholdId,Name,Created,Balance,InitialBalance,ReconcileBalance")] BankAccount bankAccount)
+        {
+            bankAccount.Created = new DateTimeOffset(DateTime.Now);
+
+            if (ModelState.IsValid)
+            {
+                bankAccount.HouseholdId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).HouseholdId.Value;
+                bankAccount.Created = new DateTimeOffset(DateTime.Now);
+
+                db.Entry(bankAccount).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name", bankAccount.HouseholdId);
+            return View(bankAccount);
+        }
+
         // GET: BankAccounts/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -131,10 +160,10 @@ namespace Household_Budgeter.Controllers
             BankAccount bankAccount = db.BankAccounts.FirstOrDefault(b => b.Id == id);
             Household household = db.Households.FirstOrDefault(h => h.Id == bankAccount.HouseholdId);
 
-            if (!household.Members.Contains(user))
-            {
-                return RedirectToAction("Unauthorized", "Error");
-            }
+            //if (!household.Members.Contains(user))
+            //{
+            //    return RedirectToAction("Unauthorized", "Error");
+            //}
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -155,10 +184,10 @@ namespace Household_Budgeter.Controllers
             BankAccount bankAccount = db.BankAccounts.FirstOrDefault(x => x.Id == id);
             Household household = db.Households.FirstOrDefault(x => x.Id == bankAccount.HouseholdId);
 
-            if (!household.Members.Contains(user))
-            {
-                return RedirectToAction("Unauthorized", "Error");
-            }
+            //if (!household.Members.Contains(user))
+            //{
+            //    return RedirectToAction("Unauthorized", "Error");
+            //}
 
             db.BankAccounts.Remove(bankAccount);
             db.SaveChanges();
