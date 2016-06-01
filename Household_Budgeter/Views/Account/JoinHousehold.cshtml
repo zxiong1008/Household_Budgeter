@@ -20,7 +20,9 @@
             @Html.DisplayFor(m => m.LastName, new { @class = "form-control", @placeholder = "Last Name" })
         </div>
         <div class="form-group">
+            @Html.LabelFor(m => m.HouseholdId)
             @Html.HiddenFor(m => m.HouseholdId)
+            @Html.DisplayFor(m => m.HouseholdId, new { @class = "form-control", @placeholder = "Household Id" })
         </div>
         <div class="form-group">
             <b>You are Joining Household</b>
@@ -36,17 +38,15 @@
             @Html.HiddenFor(m => m.Password)
             @Html.HiddenFor(m => m.ConfirmPassword)
         </div>
-    </div>
-
-    <div class="form-group">
-
-        <div class="col-md-offset-2 col-md-10">
-            <input type='hidden' name="HouseholdId"/>
-            <input type="submit" class="btn btn-info" value="Join" />
+        <div class="form-group">
+            <input type='hidden' name="HouseholdId" />
+            <input type="submit" class="btn btn-default" value="Join" />
         </div>
     </div>
 
+
+
 }
-        @section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

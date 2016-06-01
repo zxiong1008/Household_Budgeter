@@ -4,6 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Budget.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -24,29 +28,114 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Households", "Index", "HouseHolds")</li>
-                        <li>@Html.ActionLink("Invitations", "Index", "Invitations")</li>
-                        <li>@Html.ActionLink("Budgets", "Index", "Budgets")</li>
-                        <li>@Html.ActionLink("BankAccounts", "Index", "BankAccounts")</li>
-                    }
-
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
 
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="div-col-3" id="sidebar">
+            <ul class="nav nav-pills nav-stacked text-center">
+                <li><img src="https://i.ytimg.com/vi/qeIdhCGQcog/hqdefault.jpg" class="img-circle img-responsive" id="side-img" /><b>Household-Budgeter Application</b></li>
+                <li>@Html.ActionLink("Households", "Index", "HouseHolds")</li>
+                <li>@Html.ActionLink("Invitations", "Index", "Invitations")</li>
+                <li>@Html.ActionLink("Bank Accounts", "Index", "BankAccounts")</li>
+                <li>@Html.ActionLink("Transactions", "Index", "Transactions")</li>
+                <li>@Html.ActionLink("Budgets", "Index", "Budgets")</li>
+
+            </ul>
+        </div>
+    }
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <div class="container body-content" id="main">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
+    }
+    else
+    {
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
+    }
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    <script src="~/Scripts/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+
+
+    <script src="~/Scripts/jquery.dotdotdot.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#ticketsTable').DataTable();
+            $('#projectsTable').DataTable();
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("[id^=wrapper]").dotdotdot({
+                /*	The text to add as ellipsis. */
+                ellipsis: '... ',
+
+                /*	How to cut off the text/html: 'word'/'letter'/'children' */
+                wrap: 'word',
+
+                /*	Wrap-option fallback to 'letter' for long words */
+                fallbackToLetter: true,
+
+                /*	jQuery-selector for the element to keep and put after the ellipsis. */
+                after: null,
+
+                /*	Whether to update the ellipsis: true/'window' */
+                watch: false,
+
+                /*	Optionally set a max-height, can be a number or function.
+                    If null, the height will be measured. */
+                height: 10,
+
+                /*	Deviation for the height-option. */
+                tolerance: 0,
+
+                /*	Callback function that is fired after the ellipsis is added,
+                    receives two parameters: isTruncated(boolean), orgContent(string). */
+                callback: function (isTruncated, orgContent) { },
+
+                lastCharacter: {
+
+                    /*	Remove these characters from the end of the truncated text. */
+                    remove: [' ', ',', ';', '.', '!', '?'],
+
+                    /*	Don't add an ellipsis if this array contains
+                        the last character of the truncated text. */
+                    noEllipsis: []
+                }
+            });
+        })
+    </script>
+
+    <script type="text/javascript">
+        tinymce.init({
+            selector: "textarea",
+            height: 100,
+            toolbar: "insertfile undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link",
+            statusbar: false,
+            menubar: false
+        });
+    </script>
 </body>
 </html>

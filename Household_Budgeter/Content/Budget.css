@@ -1,0 +1,25 @@
+﻿#sidebar {
+    width: 200px;
+    float: left;
+    background: #222;
+    min-height: 100vh;
+    color: white;
+    position: absolute;
+    z-index: 10;
+}
+
+#sidebar > ul > li > a {
+    color:white;
+}
+
+#main {
+  margin-left:250px;
+ }
+
+#side-img{
+    padding: 15px;
+}
+
+input, select, textarea{
+    min-width: 100%;
+}

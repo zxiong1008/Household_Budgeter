@@ -33,11 +33,31 @@
             @Model.BankAccounts.Count()
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = Model.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) |
-            @Html.ActionLink("Leave", "Leave", new { id = Model.Id })
+            <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-default">Change Name</a>
+            <a href="@Url.Action("Details", new { id = Model.Id })" class="btn btn-default">View Details</a>
+            <a data-toggle="modal" href="#leaveHousehold" class="btn btn-default">Leave Household</a>
         </td>
     </tr>
 
 </table>
+
+<!-- Modal -->
+<div class="modal fade" id="leaveHousehold" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to leave <mark>@Model.Name</mark>?
+            </div>
+            <div class="modal-footer">
+                <form method="Post" action="@Url.Action("Leave")">
+                    <input type="submit" class="btn btn-danger pull-right" />
+                </form>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

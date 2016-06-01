@@ -34,6 +34,25 @@ namespace Household_Budgeter.Migrations
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var household = context.Households.Add(new Household { Name = "Demo Household" });
+            var Saving = context.BankAccounts.Add(new BankAccount {
+                HouseholdId = household.Id,
+                Name = "Saving",
+                Created = new DateTimeOffset(DateTime.Now),
+                Balance = 100,
+                InitialBalance = 0,
+                WarningBalance = 0,
+                ReconcileBalance = 100
+                });
+            var Checking = context.BankAccounts.Add(new BankAccount
+            {
+                HouseholdId = household.Id,
+                Name = "Checking",
+                Created = new DateTimeOffset(DateTime.Now),
+                Balance = 1000,
+                InitialBalance = 0,
+                WarningBalance = 0,
+                ReconcileBalance = 1000
+                });
             var uStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(uStore);
 

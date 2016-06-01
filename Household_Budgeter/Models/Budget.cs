@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Household_Budgeter.Models
 {
@@ -54,12 +55,13 @@ namespace Household_Budgeter.Models
     {
         public int Id { get; set; }
         public int AccountId { get; set; }
+        [AllowHtml]
         public string Description { get; set; }
         public DateTimeOffset Date { get; set; }
 
         [Required]
         //debit/credit
-        public bool TransactionTypeId { get; set; }
+        public bool Type { get; set; }
 
         public decimal Amount { get; set; }
         public decimal? ReconciledAmount { get; set; }
@@ -71,14 +73,6 @@ namespace Household_Budgeter.Models
         public virtual ApplicationUser User { get; set; }
         public virtual Category Categories { get; set; }
         //public virtual BankAccount BankAccounts { get; set; }
-        public virtual TransactionType TransactionTypes { get; set; }
-    }
-
-    public class TransactionType
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-
     }
 
     public class Budget

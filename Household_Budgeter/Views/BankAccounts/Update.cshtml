@@ -4,7 +4,7 @@
     ViewBag.Title = "Update";
 }
 
-<h2>Update</h2>
+<h2>@ViewBag.Title</h2>
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -37,9 +37,11 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => Model.HouseholdId)
+                @Html.HiddenFor(modelItem => Model.HouseholdId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => Model.Name)
+                @Html.HiddenFor(modelItem => Model.Name)
             </td>
             <td>
                 @Model.Created.ToString("D")
@@ -58,7 +60,6 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-                @Html.ActionLink("Update", "Update", new { id = Model.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = Model.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = Model.Id })
             </td>
@@ -66,14 +67,34 @@
     </table>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
+        <a type="submit" data-toggle="modal" href="#SaveAccount" class="btn btn-default">Update</a>
     </div>
+
+    if (Model.ReconcileBalance <= Model.WarningBalance)
+    {
+        <!-- Modal -->
+        <div class="modal fade" id="SaveAccount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to leave <mark>@Model.Name</mark>?
+                        You will lose access to your bank account(s).
+                    </div>
+                    <div class="modal-footer">
+                        <form method="Post" action="@Url.Action("Update")">
+                            <input type="submit" class="btn btn-danger pull-right" />
+                        </form>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    }
 }
-
-
-
 
 <div>
     @Html.ActionLink("Back to List", "Index")
