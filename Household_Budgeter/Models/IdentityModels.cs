@@ -49,8 +49,7 @@ namespace Household_Budgeter.Models
         public virtual DbSet<BankAccount> BankAccounts { get; set; }
         public virtual DbSet<Household> Households { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
-        public virtual DbSet<DefaultCategory> DefaultCategories { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Budget> Budgets { get; set; }
         public virtual DbSet<BudgetItem> BudgetItems { get; set; }
         public virtual DbSet<SendGridCredential> SendGridCredentials { get; set; }

@@ -17,24 +17,39 @@ namespace Household_Budgeter.Migrations
 
         protected override void Seed(Household_Budgeter.Models.ApplicationDbContext context)
         {
-            string[] D_Categories =
+            string[] Category =
             {
                 "Automobile", "Bank charges", "Childcare", "Clothing", "Credit Card Fees", "Education",
                 "Events", "Food", "Flowers", "Gifts", "Household", "Healthcare", "Insurance", "Job expenses", "Leisure (daily/non-vacation)",
                 "Household", "Hobbies", "Loans", "Pet Care", "Savings", "Taxes", "Utilities", "Vacation"
             };
 
-            if (context.DefaultCategories.Count() == 0)
+            string[] demoName =
             {
-                foreach (var c in D_Categories)
-                {
-                    context.DefaultCategories.Add(new DefaultCategory { Name = c });
-                }
+                "zxiong1008@gmail.com", "Admin@HouseholdBudget.com", "Husband@HouseholdBudget.com", "Wife@HouseholdBudget.com",
+                "Son@HouseholdBudget.com", "Daughter@HouseholdBudget.com"
+            };
+            string demoPassword = "Password-1";
+
+            foreach (var c in Category)
+            {
+                context.Category.AddOrUpdate(new Category { Name = c });
+            }
+
+            //context.TransactionTypes.AddOrUpdate(new TransactionType {Id = 1, Name = "Debit" });
+            //context.TransactionTypes.AddOrUpdate(new TransactionType { Id = 2, Name = "Credit" });
+
+
+            foreach (var d in demoName)
+            {
+                context.DemoLogins.AddOrUpdate(new DemoLogin { UserName = d, Password = demoPassword });
             }
 
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            var household = context.Households.Add(new Household { Name = "Demo Household" });
-            var Saving = context.BankAccounts.Add(new BankAccount {
+            var household = context.Households.Add(new Household { Id = 1, Name = "Demo Household" });
+
+            var Saving = context.BankAccounts.Add(new BankAccount
+            {
                 HouseholdId = household.Id,
                 Name = "Saving",
                 Created = new DateTimeOffset(DateTime.Now),
@@ -42,7 +57,7 @@ namespace Household_Budgeter.Migrations
                 InitialBalance = 0,
                 WarningBalance = 0,
                 ReconcileBalance = 100
-                });
+            });
             var Checking = context.BankAccounts.Add(new BankAccount
             {
                 HouseholdId = household.Id,
@@ -52,7 +67,7 @@ namespace Household_Budgeter.Migrations
                 InitialBalance = 0,
                 WarningBalance = 0,
                 ReconcileBalance = 1000
-                });
+            });
             var uStore = new UserStore<ApplicationUser>(context);
             var userManager = new UserManager<ApplicationUser>(uStore);
 
@@ -66,7 +81,7 @@ namespace Household_Budgeter.Migrations
                     LastName = "Xiong",
                     HouseholdId = household.Id,
                     EmailConfirmed = true
-                }, "Password-1");
+                }, demoPassword);
             }
             if (!context.Users.Any(u => u.Email == "Admin@HouseholdBudget.com"))
             {
@@ -78,7 +93,7 @@ namespace Household_Budgeter.Migrations
                     LastName = "Household-Budgeter-Application",
                     HouseholdId = household.Id,
                     EmailConfirmed = true
-                }, "Password-1");
+                }, demoPassword);
             }
             if (!context.Users.Any(u => u.Email == "Husband@HouseholdBudget.com"))
             {
@@ -90,7 +105,7 @@ namespace Household_Budgeter.Migrations
                     LastName = "Household-Budgeter-Application",
                     HouseholdId = household.Id,
                     EmailConfirmed = true
-                }, "Password-1");
+                }, demoPassword);
             }
             if (!context.Users.Any(u => u.Email == "Wife@HouseholdBudget.com"))
             {
@@ -102,7 +117,7 @@ namespace Household_Budgeter.Migrations
                     LastName = "Household-Budgeter-Application",
                     HouseholdId = household.Id,
                     EmailConfirmed = true
-                }, "Password-1");
+                }, demoPassword);
             }
             if (!context.Users.Any(u => u.Email == "Son@HouseholdBudget.com"))
             {
@@ -114,7 +129,7 @@ namespace Household_Budgeter.Migrations
                     LastName = "Household-Budgeter-Application",
                     HouseholdId = household.Id,
                     EmailConfirmed = true
-                }, "Password-1");
+                }, demoPassword);
             }
             if (!context.Users.Any(u => u.Email == "Daughter@HouseholdBudget.com"))
             {
@@ -126,7 +141,7 @@ namespace Household_Budgeter.Migrations
                     LastName = "Household-Budgeter-Application",
                     HouseholdId = household.Id,
                     EmailConfirmed = true
-                }, "Password-1");
+                }, demoPassword);
             }
         }
     }

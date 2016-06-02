@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Household_Budgeter.Models;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
 
 namespace Household_Budgeter.Controllers
 {
@@ -20,7 +21,7 @@ namespace Household_Budgeter.Controllers
         {
             var user = db.Users.Find(User.Identity.GetUserId());
 
-            var transactions = db.Transactions.Where(t => t.User.HouseholdId == user.HouseholdId).Include(t => t.Categories);
+            var transactions = db.Transactions.Where(t => t.BankAccounts.HouseholdId == user.HouseholdId).Include(t => t.Category);
             return View(transactions.ToList());
         }
 
@@ -46,9 +47,8 @@ namespace Household_Budgeter.Controllers
 
             var getAccount = db.BankAccounts.Where(u => user.HouseholdId == u.HouseholdId).ToList();
 
-            ViewBag.AccountId = new SelectList(getAccount, "Id", "Name");
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name");
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName");
+            ViewBag.BankAccountsId = new SelectList(getAccount, "Id", "Name");
+            ViewBag.CategoryId = new SelectList(db.Category, "Id", "Name");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace Household_Budgeter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,AccountId,Description,Date,TransactionTypeId,Amount,ReconciledAmount,CategoryId,Reconciled,UserId")] Transaction transaction)
+        public ActionResult Create([Bind(Include = "Id,BankAccountsId,Description,Date,Types,Amount,ReconciledAmount,CategoryId,Reconciled,UserId")] Transaction transaction)
         {
             transaction.Date = new DateTimeOffset(DateTime.Now);
 
@@ -66,7 +66,7 @@ namespace Household_Budgeter.Controllers
                 transaction.Date = new DateTimeOffset(DateTime.Now);
                 transaction.UserId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
 
-                var account = db.BankAccounts.FirstOrDefault(b => b.Id == transaction.AccountId);
+                var account = db.BankAccounts.FirstOrDefault(b => b.Id == transaction.BankAccountsId);
 
                 transaction.ReconciledAmount = transaction.Amount;
 
@@ -89,8 +89,8 @@ namespace Household_Budgeter.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.AccountId);
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", transaction.CategoryId);
+            ViewBag.BankAccountsId = new SelectList(db.BankAccounts, "Id", "Name", transaction.BankAccountsId);
+            ViewBag.CategoryId = new SelectList(db.Category, "Id", "Name", transaction.CategoryId);
             return View(transaction);
         }
 
@@ -100,7 +100,7 @@ namespace Household_Budgeter.Controllers
             var user = db.Users.Find(User.Identity.GetUserId());
 
             Transaction transaction = db.Transactions.FirstOrDefault(t => t.Id == id);
-            BankAccount bankAccount = db.BankAccounts.FirstOrDefault(b => b.Id == transaction.AccountId);
+            BankAccount bankAccount = db.BankAccounts.FirstOrDefault(b => b.Id == transaction.BankAccountsId);
             Household household = db.Households.FirstOrDefault(h => h.Id == bankAccount.HouseholdId);
 
             if (!household.Members.Contains(user))
@@ -120,8 +120,8 @@ namespace Household_Budgeter.Controllers
 
             var getAccount = db.BankAccounts.Where(u => user.HouseholdId == u.HouseholdId).ToList();
 
-            ViewBag.AccountId = new SelectList(getAccount, "Id", "Name");
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", transaction.CategoryId);
+            ViewBag.BankAccountsId = new SelectList(getAccount, "Id", "Name");
+            ViewBag.CategoryId = new SelectList(db.Category, "Id", "Name", transaction.CategoryId);
             return View(transaction);
         }
 
@@ -130,7 +130,7 @@ namespace Household_Budgeter.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,AccountId,Description,Date,TransactionTypeId,Amount,ReconciledAmount,CategoryId,Reconciled,UserId")] Transaction transaction)
+        public ActionResult Edit([Bind(Include = "Id,BankAccountsId,Description,Date,TransactionTypeId,Amount,ReconciledAmount,CategoryId,Reconciled,UserId")] Transaction transaction)
         {
             transaction.Date = new DateTimeOffset(DateTime.Now);
 
@@ -140,7 +140,7 @@ namespace Household_Budgeter.Controllers
                 transaction.UserId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
 
                 var original = db.Transactions.AsNoTracking().FirstOrDefault(t => t.Id == transaction.Id);
-                var account = db.BankAccounts.FirstOrDefault(b => b.Id == transaction.AccountId);
+                var account = db.BankAccounts.FirstOrDefault(b => b.Id == transaction.BankAccountsId);
 
                 if (transaction.ReconciledAmount == transaction.Amount)
                 {
@@ -151,7 +151,7 @@ namespace Household_Budgeter.Controllers
                     transaction.Reconciled = false;
                 }
 
-                if(transaction.Type == true)
+                if(transaction.Types == true)
                 {
                     account.Balance -= original.Amount;
                 }
@@ -160,7 +160,7 @@ namespace Household_Budgeter.Controllers
                     account.Balance += original.Amount;
                 }
 
-                if(transaction.Type == true)
+                if(transaction.Types == true)
                 {
                     account.Balance += transaction.Amount;
                 }
@@ -174,8 +174,8 @@ namespace Household_Budgeter.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.CategoryId);
-            ViewBag.CategoryId = new SelectList(db.Categories, "Id", "Name", transaction.CategoryId);
+            ViewBag.BankAccountsId = new SelectList(db.BankAccounts, "Id", "Name", transaction.CategoryId);
+            ViewBag.CategoryId = new SelectList(db.Category, "Id", "Name", transaction.CategoryId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", transaction.UserId);
             return View(transaction);
         }
@@ -186,7 +186,7 @@ namespace Household_Budgeter.Controllers
             var user = db.Users.Find(User.Identity.GetUserId());
 
             Transaction transaction = db.Transactions.FirstOrDefault(t => t.Id == id);
-            BankAccount bankAccount = db.BankAccounts.FirstOrDefault(b => b.Id == transaction.AccountId);
+            BankAccount bankAccount = db.BankAccounts.FirstOrDefault(b => b.Id == transaction.BankAccountsId);
             Household household = db.Households.FirstOrDefault(h => h.Id == bankAccount.HouseholdId);
             if (!household.Members.Contains(user))
             {
@@ -211,7 +211,7 @@ namespace Household_Budgeter.Controllers
             var user = db.Users.Find(User.Identity.GetUserId());
 
             Transaction transaction = db.Transactions.FirstOrDefault(t => t.Id == id);
-            BankAccount bankAccount = db.BankAccounts.FirstOrDefault(b => b.Id == transaction.AccountId);
+            BankAccount bankAccount = db.BankAccounts.FirstOrDefault(b => b.Id == transaction.BankAccountsId);
             Household household = db.Households.FirstOrDefault(h => h.Id == bankAccount.HouseholdId);
 
             if (!household.Members.Contains(user))
@@ -223,6 +223,31 @@ namespace Household_Budgeter.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public async Task<decimal> Rec (int id, bool rec)
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            BankAccount bankAccount = db.BankAccounts.FirstOrDefault(x => x.Id == id);
+            Household household = db.Households.FirstOrDefault(x => x.Id == bankAccount.HouseholdId);
+
+            if (household.Id == id)
+            {
+                var transaction = db.Transactions.Find(id);
+                if(transaction.ReconciledAmount == null || transaction.ReconciledAmount == 0)
+                {
+                    transaction.ReconciledAmount = transaction.Amount;
+                }
+
+                transaction.Reconciled = rec;
+                db.Entry(transaction).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+
+                return (decimal)transaction.ReconciledAmount;
+            }
+            return 0;
+        }
+
 
         protected override void Dispose(bool disposing)
         {

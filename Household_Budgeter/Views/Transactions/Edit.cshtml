@@ -16,10 +16,10 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.AccountId, "BankAccounts", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BankAccountsId, "BankAccounts", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("AccountId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AccountId, "", new { @class = "text-danger" })
+                @Html.DropDownList("BankAccountsId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BankAccountsId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -32,24 +32,13 @@
         </div>
 
         <div class="form-group">
-            <div class="row">
-                <div class="col-sm-2 text-right">
-                    <b>Deposit</b>
-                </div>
-                <div class="col-sm-1 left">
-                    <p>@Html.RadioButton("TransactionTypesId", true, isChecked: true)</p>
-                </div>
+            <div class="col-md-7 pull-right">
+                @Html.RadioButton("Types", false) <text class="red"><b>Expense</b></text>
             </div>
-            <div class="row">
-                <div class="col-sm-2 text-right">
-                    <b>Withdraw</b>
-                </div>
-                <div class="col-sm-1 left">
-                    <p>@Html.RadioButton("TransactionTypesId", false, isChecked: false)</p>
-                </div>
+            <div class="col-md-2 pull-right">
+                @Html.RadioButton("Types", true) <text class="green"><b>Income</b></text>
             </div>
-
-            @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.Types, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group">
@@ -57,7 +46,7 @@
             <div class="col-md-10">
                 <div class="input-group">
                     <span class="input-group-addon">$</span>
-                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @Value = "100.00" } })
+                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @Value = @Model.Amount } })
                 </div>
                 @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
             </div>
@@ -70,16 +59,13 @@
                 @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="hidden" id="TransactionTypesId" />
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="hidden" name="ReconciledAmount" value="@Model.Amount" />
+                <input type="submit" value="Reconcile Balance" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
+<a href="@Url.Action("Index")" class="btn btn-default"> << Back to Transaction</a>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

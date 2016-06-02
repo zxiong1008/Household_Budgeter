@@ -577,7 +577,7 @@ var AI;
             this.sessionIsFirst = "ai.session.isFirst";
             this.sessionIsNew = "ai.session.isNew";
             this.userAccountAcquisitionDate = "ai.user.accountAcquisitionDate";
-            this.userAccountId = "ai.user.accountId";
+            this.userAccountId = "ai.user.AccountId";
             this.userAgent = "ai.user.userAgent";
             this.userId = "ai.user.id";
             this.userStoreRegion = "ai.user.storeRegion";
@@ -590,7 +590,7 @@ var AI;
             this.internalDataCollectorReceivedTime = "ai.internal.dataCollectorReceivedTime";
             this.internalProfileId = "ai.internal.profileId";
             this.internalProfileClassId = "ai.internal.profileClassId";
-            this.internalAccountId = "ai.internal.accountId";
+            this.internalAccountId = "ai.internal.AccountId";
             this.internalApplicationName = "ai.internal.applicationName";
             this.internalInstrumentationKey = "ai.internal.instrumentationKey";
             this.internalTelemetryItemId = "ai.internal.telemetryItemId";
@@ -902,7 +902,7 @@ var Microsoft;
         (function (Context) {
             "use strict";
             var User = (function () {
-                function User(accountId) {
+                function User(AccountId) {
                     var cookie = ApplicationInsights.Util.getCookie(User.userCookieName);
                     if (cookie) {
                         var params = cookie.split(User.cookieSeparator);
@@ -920,7 +920,7 @@ var Microsoft;
                         ApplicationInsights.Util.setCookie(User.userCookieName, newCookie.join(User.cookieSeparator) + ';expires=' + date.toUTCString());
                         ApplicationInsights.Util.removeStorage('ai_session');
                     }
-                    this.accountId = accountId;
+                    this.AccountId = AccountId;
                     var authCookie = ApplicationInsights.Util.getCookie(User.authUserCookieName);
                     if (authCookie) {
                         authCookie = decodeURI(authCookie);
@@ -929,27 +929,27 @@ var Microsoft;
                             this.authenticatedId = authCookieString[0];
                         }
                         if (authCookieString.length > 1 && authCookieString[1]) {
-                            this.accountId = authCookieString[1];
+                            this.AccountId = authCookieString[1];
                         }
                     }
                 }
-                User.prototype.setAuthenticatedUserContext = function (authenticatedUserId, accountId) {
-                    var isInvalidInput = !this.validateUserInput(authenticatedUserId) || (accountId && !this.validateUserInput(accountId));
+                User.prototype.setAuthenticatedUserContext = function (authenticatedUserId, AccountId) {
+                    var isInvalidInput = !this.validateUserInput(authenticatedUserId) || (AccountId && !this.validateUserInput(AccountId));
                     if (isInvalidInput) {
                         ApplicationInsights._InternalLogging.throwInternalUserActionable(1 /* WARNING */, "Setting auth user context failed. " + "User auth/account id should be of type string, and not contain commas, semi-colons, equal signs, spaces, or vertical-bars.");
                         return;
                     }
                     this.authenticatedId = authenticatedUserId;
                     var authCookie = this.authenticatedId;
-                    if (accountId) {
-                        this.accountId = accountId;
-                        authCookie = [this.authenticatedId, this.accountId].join(User.cookieSeparator);
+                    if (AccountId) {
+                        this.AccountId = AccountId;
+                        authCookie = [this.authenticatedId, this.AccountId].join(User.cookieSeparator);
                     }
                     ApplicationInsights.Util.setCookie(User.authUserCookieName, encodeURI(authCookie));
                 };
                 User.prototype.clearAuthenticatedUserContext = function () {
                     this.authenticatedId = null;
-                    this.accountId = null;
+                    this.AccountId = null;
                     ApplicationInsights.Util.deleteCookie(User.authUserCookieName);
                 };
                 User.prototype.validateUserInput = function (id) {
@@ -1813,7 +1813,7 @@ var Microsoft;
                     this.device = new ApplicationInsights.Context.Device();
                     this.internal = new ApplicationInsights.Context.Internal();
                     this.location = new ApplicationInsights.Context.Location();
-                    this.user = new ApplicationInsights.Context.User(config.accountId());
+                    this.user = new ApplicationInsights.Context.User(config.AccountId());
                     this.operation = new ApplicationInsights.Context.Operation();
                     this.session = new ApplicationInsights.Context.Session();
                     this.sample = new ApplicationInsights.Context.Sample(config.sampleRate());
@@ -2000,8 +2000,8 @@ var Microsoft;
                     if (typeof userContext.accountAcquisitionDate === "string") {
                         envelope.tags[tagKeys.userAccountAcquisitionDate] = userContext.accountAcquisitionDate;
                     }
-                    if (typeof userContext.accountId === "string") {
-                        envelope.tags[tagKeys.userAccountId] = userContext.accountId;
+                    if (typeof userContext.AccountId === "string") {
+                        envelope.tags[tagKeys.userAccountId] = userContext.AccountId;
                     }
                     if (typeof userContext.agent === "string") {
                         envelope.tags[tagKeys.userAgent] = userContext.agent;
@@ -2172,7 +2172,7 @@ var Microsoft;
                 ApplicationInsights._InternalLogging.enableDebugExceptions = function () { return _this.config.enableDebug; };
                 var configGetters = {
                     instrumentationKey: function () { return _this.config.instrumentationKey; },
-                    accountId: function () { return _this.config.accountId; },
+                    AccountId: function () { return _this.config.AccountId; },
                     appUserId: function () { return _this.config.appUserId; },
                     sessionRenewalMs: function () { return _this.config.sessionRenewalMs; },
                     sessionExpirationMs: function () { return _this.config.sessionExpirationMs; },
@@ -2358,9 +2358,9 @@ var Microsoft;
                     ApplicationInsights._InternalLogging.throwInternalNonUserActionable(0 /* CRITICAL */, "flush failed, telemetry will not be collected: " + ApplicationInsights.Util.dump(e));
                 }
             };
-            AppInsights.prototype.setAuthenticatedUserContext = function (authenticatedUserId, accountId) {
+            AppInsights.prototype.setAuthenticatedUserContext = function (authenticatedUserId, AccountId) {
                 try {
-                    this.context.user.setAuthenticatedUserContext(authenticatedUserId, accountId);
+                    this.context.user.setAuthenticatedUserContext(authenticatedUserId, AccountId);
                 }
                 catch (e) {
                     ApplicationInsights._InternalLogging.throwInternalUserActionable(1 /* WARNING */, "Setting auth user context failed. " + ApplicationInsights.Util.dump(e));
@@ -2596,7 +2596,7 @@ var Microsoft;
                     config = {};
                 }
                 config.endpointUrl = config.endpointUrl || "//dc.services.visualstudio.com/v2/track";
-                config.accountId = config.accountId;
+                config.AccountId = config.AccountId;
                 config.appUserId = config.appUserId;
                 config.sessionRenewalMs = 30 * 60 * 1000;
                 config.sessionExpirationMs = 24 * 60 * 60 * 1000;

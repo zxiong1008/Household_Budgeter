@@ -15,7 +15,7 @@ namespace Household_Budgeter.Models
             this.Members = new HashSet<ApplicationUser>();
             this.BankAccounts = new HashSet<BankAccount>();
             this.Budgets = new HashSet<Budget>();
-            this.Categories = new HashSet<Category>();
+            this.Category = new HashSet<Category>();
             this.Invitations = new HashSet<Invitation>();
         }
         public int Id { get; set; }
@@ -26,7 +26,7 @@ namespace Household_Budgeter.Models
         //already in ACCOUNTS, dont need to ask twice
         //public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Budget> Budgets { get; set; }
-        public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<Category> Category { get; set; }
         public virtual ICollection<Invitation> Invitations { get; set; }
     }
 
@@ -54,14 +54,14 @@ namespace Household_Budgeter.Models
     public class Transaction
     {
         public int Id { get; set; }
-        public int AccountId { get; set; }
+        public int BankAccountsId { get; set; }
         [AllowHtml]
         public string Description { get; set; }
         public DateTimeOffset Date { get; set; }
 
         [Required]
         //debit/credit
-        public bool Type { get; set; }
+        public bool Types { get; set; }
 
         public decimal Amount { get; set; }
         public decimal? ReconciledAmount { get; set; }
@@ -71,9 +71,10 @@ namespace Household_Budgeter.Models
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
-        public virtual Category Categories { get; set; }
-        //public virtual BankAccount BankAccounts { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual BankAccount BankAccounts { get; set; }
     }
+    
 
     public class Budget
     {
@@ -113,12 +114,6 @@ namespace Household_Budgeter.Models
         public string Name { get; set; }
 
         public virtual ICollection<Household> Households { get; set; }
-    }
-
-    public class DefaultCategory
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
     }
 
     //need an inviation object that has householdid and userid for current logged user

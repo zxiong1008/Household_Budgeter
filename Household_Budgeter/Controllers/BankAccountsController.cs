@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Household_Budgeter.Models;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
 
 namespace Household_Budgeter.Controllers
 {
@@ -193,6 +194,25 @@ namespace Household_Budgeter.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public JsonResult GetBal(int id)
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            BankAccount bankAccount = db.BankAccounts.FirstOrDefault(x => x.Id == id);
+            Household household = db.Households.FirstOrDefault(x => x.Id == bankAccount.HouseholdId);
+
+            //Gets all bank account ids for household which contains the incoming 'id'
+            if (household.Id == id)
+            {
+                var account = db.BankAccounts.Find(id);
+                //generic object in c#
+                return Json(new { bal = account.Balance, recBal = account.ReconcileBalance }, JsonRequestBehavior.AllowGet);
+            }
+
+            return null;
+        }
+
 
         protected override void Dispose(bool disposing)
         {
