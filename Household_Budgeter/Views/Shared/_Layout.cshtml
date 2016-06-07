@@ -44,6 +44,7 @@
                 <li>@Html.ActionLink("Bank Accounts", "Index", "BankAccounts")</li>
                 <li>@Html.ActionLink("Transactions", "Index", "Transactions")</li>
                 <li>@Html.ActionLink("Budgets", "Index", "Budgets")</li>
+                <li>@Html.ActionLink("BudgetItems", "Index", "BudgetItems")</li>
 
             </ul>
         </div>
@@ -51,12 +52,14 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-        <div class="container body-content" id="main">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
+        <div id="main">
+            <div class="container body-content">
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                </footer>
+            </div>
         </div>
     }
     else
@@ -82,7 +85,7 @@
     <script>
         $(document).ready(function () {
             $('#transactionTable').DataTable();
-            $('#projectsTable').DataTable();
+            $('#categoriesTable').DataTable();
         });
     </script>
 

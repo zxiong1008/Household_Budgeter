@@ -74,7 +74,6 @@ namespace Household_Budgeter.Models
         public virtual Category Category { get; set; }
         public virtual BankAccount BankAccounts { get; set; }
     }
-    
 
     public class Budget
     {
@@ -82,12 +81,14 @@ namespace Household_Budgeter.Models
         {
             //this.Transactions = new HashSet<Transaction>();
             this.BudgetItems = new HashSet<BudgetItem>();
+            this.Category = new HashSet<Category>();
         }
         public int Id { get; set; }
         public string Name { get; set; }
         public int HouseHoldId { get; set; }
 
         public virtual ICollection<BudgetItem> BudgetItems { get; set; }
+        public virtual ICollection<Category> Category { get; set; }
         public virtual Household Household { get; set; }
     }
 
@@ -101,7 +102,6 @@ namespace Household_Budgeter.Models
         public decimal Amount { get; set; }
         public virtual Budget Budget { get; set; }
         public virtual Category Category { get; set; }
-
     }
 
     public class Category

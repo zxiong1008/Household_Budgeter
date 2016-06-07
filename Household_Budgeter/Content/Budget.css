@@ -4,7 +4,7 @@
     background: #222;
     min-height: 100vh;
     color: white;
-    position: absolute;
+    position: fixed;
     z-index: 10;
 }
 
