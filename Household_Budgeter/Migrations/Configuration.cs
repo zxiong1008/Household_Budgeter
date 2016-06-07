@@ -33,7 +33,7 @@ namespace Household_Budgeter.Migrations
 
             foreach (var c in Category)
             {
-                context.Category.AddOrUpdate(new Category { Name = c });
+                context.Category.Add(new Category { Name = c });
             }
 
             //context.TransactionTypes.AddOrUpdate(new TransactionType {Id = 1, Name = "Debit" });

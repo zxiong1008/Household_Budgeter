@@ -7,7 +7,7 @@
     <link href="~/Content/Budget.css" rel="stylesheet" />
     <link href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/font-awesome.css" rel="stylesheet" />
-    
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -38,13 +38,14 @@
     {
         <div class="div-col-3" id="sidebar">
             <ul class="nav nav-pills nav-stacked text-center">
-                <li><img src="https://i.ytimg.com/vi/qeIdhCGQcog/hqdefault.jpg" class="img-circle img-responsive" id="side-img" /><b>Household-Budgeter Application</b></li>
+                <li><img src="https://sparkleandshinesami.files.wordpress.com/2013/06/saving-money.jpg?w=300&h=199" class="img-circle img-responsive" id="side-img" /><b>Household-Budgeter Application</b></li>
                 <li>@Html.ActionLink("Households", "Index", "HouseHolds")</li>
                 <li>@Html.ActionLink("Invitations", "Index", "Invitations")</li>
                 <li>@Html.ActionLink("Bank Accounts", "Index", "BankAccounts")</li>
                 <li>@Html.ActionLink("Transactions", "Index", "Transactions")</li>
                 <li>@Html.ActionLink("Budgets", "Index", "Budgets")</li>
                 <li>@Html.ActionLink("BudgetItems", "Index", "BudgetItems")</li>
+                <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
 
             </ul>
         </div>
@@ -76,16 +77,19 @@
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
+
     <script src="~/Scripts/tinymce/js/tinymce/tinymce.min.js"></script>
     <script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
-
-
     <script src="~/Scripts/jquery.dotdotdot.js"></script>
 
+    <script src="~/Scripts/Budget.js"></script>
+    
     <script>
         $(document).ready(function () {
             $('#transactionTable').DataTable();
             $('#categoriesTable').DataTable();
+            $('#budgetItemTable').DataTable({ "pageLength": 5 });
+            $('#budgetTable').DataTable({ "pageLength": 5 });
         });
     </script>
 
@@ -140,7 +144,6 @@
             menubar: false
         });
     </script>
-
 
 </body>
 </html>

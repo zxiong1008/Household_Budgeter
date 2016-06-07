@@ -11,12 +11,13 @@ using Microsoft.AspNet.Identity;
 
 namespace Household_Budgeter.Controllers
 {
+    [Authorize]
     public class CategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Categories
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
             var user = db.Users.Find(User.Identity.GetUserId());
             Household household = db.Households.Find(user.HouseholdId);
@@ -116,7 +117,7 @@ namespace Household_Budgeter.Controllers
             return View(category);
         }
 
-        // GET: Categories/Delete/5
+        // GET: Categories/Delete/5$
         public ActionResult Delete(int? id)
         {
             //heirarchy where we find the user

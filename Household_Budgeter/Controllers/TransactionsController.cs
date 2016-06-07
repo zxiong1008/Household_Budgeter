@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Household_Budgeter.Controllers
 {
+    [Authorize]
     public class TransactionsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -41,7 +42,7 @@ namespace Household_Budgeter.Controllers
         //}
 
         // GET: Transactions/Create
-        public ActionResult Create()
+        public PartialViewResult Create()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
 
@@ -49,7 +50,7 @@ namespace Household_Budgeter.Controllers
 
             ViewBag.BankAccountsId = new SelectList(getAccount, "Id", "Name");
             ViewBag.CategoryId = new SelectList(db.Category, "Id", "Name");
-            return View();
+            return PartialView();
         }
 
         // POST: Transactions/Create

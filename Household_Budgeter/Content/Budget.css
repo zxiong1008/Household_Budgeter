@@ -23,3 +23,10 @@
 input, select, textarea{
     min-width: 100%;
 }
+
+/*Modal CSS*/
+@media screen and (min-width: 768px) {
+	
+	#create .modal-dialog  {width: 80%;}
+
+}

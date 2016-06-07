@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Household_Budgeter.Controllers
 {
+    [Authorize]
     public class BudgetItemsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -19,11 +20,10 @@ namespace Household_Budgeter.Controllers
         public ActionResult Index()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
+            var budgetItems = db.BudgetItems.Include(h => h.Budget.Household).Include(b => b.Budget).Include(b => b.Category);
 
             Household household = db.Households.Find(user.HouseholdId);
 
-
-            var budgetItems = db.BudgetItems.Include(h => h.Budget.Household).Include(b => b.Budget).Include(b => b.Category);
 
             if (household == null)
             {

@@ -37,7 +37,7 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("Delete", "BudgetItems")) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

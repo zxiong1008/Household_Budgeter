@@ -61,7 +61,7 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm("Delete", "BankAccounts")) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">

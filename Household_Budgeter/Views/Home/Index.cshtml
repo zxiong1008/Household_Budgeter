@@ -8,56 +8,68 @@
     <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
 </div>
 <div class="row">
-
-    @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-    {
-    @Html.AntiForgeryToken()
-    <h3>
-        <input name="Email" type="hidden" value="zxiong1008@gmail.com">
-        <button type="submit" class="btn btn-primary">Login as Zeng</button>
-    </h3>
-    }
-    @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-    {
-    @Html.AntiForgeryToken()
-    <h3>
-        <input name="Email" type="hidden" value="Admin@HouseholdBudget.com">
-        <button type="submit" class="btn btn-primary">Admin</button>
-    </h3>
-    }
-    @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-    {
-    @Html.AntiForgeryToken()
-    <h3>
-        <input name="Email" type="hidden" value="Husband@HouseholdBudget.com">
-        <button type="submit" class="btn btn-primary">Husband</button>
-    </h3>
-    }
-    @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-    {
-    @Html.AntiForgeryToken()
-    <h3>
-        <input name="Email" type="hidden" value="Wife@HouseholdBudget.com">
-        <button type="submit" class="btn btn-primary">Wife</button>
-    </h3>
-    }
-    @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-    {
-    @Html.AntiForgeryToken()
-    <h3>
-        <input name="Email" type="hidden" value="Son@HouseholdBudget.com">
-        <button type="submit" class="btn btn-primary">Son</button>
-    </h3>
-    }
-    @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
-    {
-    @Html.AntiForgeryToken()
-    <h3>
-        <input name="Email" type="hidden" value="Daughter@HouseholdBudget.com">
-        <button type="submit" class="btn btn-primary">Daughter</button>
-    </h3>
-    }
-
+    <h2>Free Demo Logins</h2>
+    <hr/>
+    <div class="col-md-2">
+        @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h3>
+                <input name="Email" type="hidden" value="zxiong1008@gmail.com">
+                <button type="submit" class="btn btn-primary">Zeng</button>
+            </h3>
+        }
+    </div>
+    <div class="col-md-2">
+        @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h3>
+                <input name="Email" type="hidden" value="Admin@HouseholdBudget.com">
+                <button type="submit" class="btn btn-primary">Admin</button>
+            </h3>
+        }
+    </div>
+    <div class="col-md-2">
+        @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h3>
+                <input name="Email" type="hidden" value="Husband@HouseholdBudget.com">
+                <button type="submit" class="btn btn-primary">Husband</button>
+            </h3>
+        }
+    </div>
+    <div class="col-md-2">
+        @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h3>
+                <input name="Email" type="hidden" value="Wife@HouseholdBudget.com">
+                <button type="submit" class="btn btn-primary">Wife</button>
+            </h3>
+        }
+    </div>
+    <div class="col-md-2">
+        @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h3>
+                <input name="Email" type="hidden" value="Son@HouseholdBudget.com">
+                <button type="submit" class="btn btn-primary">Son</button>
+            </h3>
+        }
+    </div>
+    <div class="col-md-2">
+        @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h3>
+                <input name="Email" type="hidden" value="Daughter@HouseholdBudget.com">
+                <button type="submit" class="btn btn-primary">Daughter</button>
+            </h3>
+        }
+    </div>
 </div>
 
 <div class="row">

@@ -20,6 +20,12 @@
         <th>
             BankAccounts
         </th>
+        <th>
+            Savings
+        </th>
+        <th>
+            Checking
+        </th>
         <th></th>
     </tr>
     <tr>
@@ -32,13 +38,20 @@
         <td>
             @Model.BankAccounts.Count()
         </td>
+
+        @foreach (var item in Model.BankAccounts)
+        {
+            <td>
+            @item.Balance.ToString("C")
+            </td>
+        }
+
         <td>
             <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-default">Change Name</a>
             <a href="@Url.Action("Details", new { id = Model.Id })" class="btn btn-default">View Details</a>
             <a data-toggle="modal" href="#leaveHousehold" class="btn btn-default">Leave Household</a>
         </td>
     </tr>
-
 </table>
 
 <!-- Modal -->

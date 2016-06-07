@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Household_Budgeter.Controllers
 {
+    [Authorize]
     public class BudgetsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -122,6 +123,7 @@ namespace Household_Budgeter.Controllers
         }
 
         // GET: Budgets/Delete/5
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int? id)
         {
             //heirarchy where we find the user
