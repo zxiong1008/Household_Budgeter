@@ -4,72 +4,81 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<br />
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <dkv class="panel-title"><h2>Household Information</h2></dkv>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    Members
+                </th>
+                <th>
+                    BankAccounts
+                </th>
+                <th>
+                    Savings
+                </th>
+                <th>
+                    Checking
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    @Model.Name
+                </td>
+                <td>
+                    @Model.Members.Count()
+                </td>
+                <td>
+                    @Model.BankAccounts.Count()
+                </td>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            Members
-        </th>
-        <th>
-            BankAccounts
-        </th>
-        <th>
-            Savings
-        </th>
-        <th>
-            Checking
-        </th>
-        <th></th>
-    </tr>
-    <tr>
-        <td>
-            @Model.Name
-        </td>
-        <td>
-            @Model.Members.Count()
-        </td>
-        <td>
-            @Model.BankAccounts.Count()
-        </td>
+                @foreach (var item in Model.BankAccounts)
+                {
+                    <td>
+                        @item.Balance.ToString("C")
+                    </td>
+                }
 
-        @foreach (var item in Model.BankAccounts)
-        {
-            <td>
-            @item.Balance.ToString("C")
-            </td>
-        }
+                <td>
+                    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-default">Change Name</a>
+                    <a href="@Url.Action("Details", new { id = Model.Id })" class="btn btn-default">View Details</a>
+                    <a data-toggle="modal" href="#leaveHousehold" class="btn btn-default">Leave Household</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 
-        <td>
-            <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-default">Change Name</a>
-            <a href="@Url.Action("Details", new { id = Model.Id })" class="btn btn-default">View Details</a>
-            <a data-toggle="modal" href="#leaveHousehold" class="btn btn-default">Leave Household</a>
-        </td>
-    </tr>
-</table>
+
 
 <!-- Modal -->
 <div class="modal fade" id="leaveHousehold" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="container" style="padding: 20px">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to leave <mark>@Model.Name</mark>?
-            </div>
-            <div class="modal-footer">
+
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Leaving?</h3>
+                    </div>
+                    <div class="panel-body">
+                        Are you sure you want to leave <mark>@Model.Name</mark>?
+                        Once you leave, you will lose access to all accounts.
+                    </div>
+                </div>
                 <form method="Post" action="@Url.Action("Leave")">
                     <input type="submit" class="btn btn-danger pull-right" />
                 </form>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <input type="button" class="btn btn-default pull-right"  data-dismiss="modal" value="Close" />
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

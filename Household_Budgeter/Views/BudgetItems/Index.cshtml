@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-success">
             <div class="panel-heading">
                 <div  class="panel-title">
                     <h2>Budget Items<a data-toggle="modal" href="#create" class="btn btn-default pull-right">Add A New Element</a></h2>
@@ -44,7 +44,6 @@
                                 </td>
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                                     <div class="delete-section">
                                         <a class="delete-link" href="@Url.Action("Delete", new {id = item.Id})">Delete</a>
                                         <div class="btn btn-danger btn-sm delete-confirm" style="display:none" data-delete-id="@item.Id">Confirm Delete</div>
@@ -65,11 +64,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
-            <div class="container" style="padding: 10px 0">
-                <div class="panel panel-default">
+            <div class="container" style="padding: 20px">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <div class="panel-title">
-                            <h2>Add New Element</h2>
+                            <h3>Add New Element</h3>
                         </div>
                     </div>
                     <div class="panel-body">
@@ -91,7 +90,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="button" class="btn btn-default right" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

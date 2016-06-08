@@ -48,10 +48,10 @@ namespace Household_Budgeter.Controllers
         }
 
         // GET: BankAccounts/Create
-        public ActionResult Create()
+        public PartialViewResult Create()
         {
             ViewBag.HouseholdId = new SelectList(db.Households, "Id", "Name");
-            return View();
+            return PartialView();
         }
 
         // POST: BankAccounts/Create

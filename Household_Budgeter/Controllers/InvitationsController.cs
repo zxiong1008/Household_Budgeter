@@ -39,7 +39,7 @@ namespace BudgetYou.Controllers
         // GET: Invitations/Create
         [HttpGet]
         [Authorize]
-        public ActionResult Create()
+        public PartialViewResult Create()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
 
@@ -47,7 +47,7 @@ namespace BudgetYou.Controllers
 
             ViewBag.HouseholdId = new SelectList(userHousehold, "Id", "Name");
 
-            return View();
+           return PartialView();
         }
 
         // POST: Invitations/Create

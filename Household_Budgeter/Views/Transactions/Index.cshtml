@@ -7,7 +7,7 @@
 <br/>
 <div class="row">
     <div class="col-md-12">
-        <div class="panel panel-default">
+        <div class="panel panel-success">
             <div class="panel-heading">
                 <div class="panel-title">
                     <h2>Transaction List<a data-toggle="modal" href="#create" class="btn btn-default pull-right">Make A New Transaction</a></h2>
@@ -89,7 +89,6 @@
                                 </td>
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                                 </td>
                             </tr>
@@ -109,10 +108,10 @@
 <div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="container">
+            <div class="container" style="padding:20px;">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 @Html.Action("Create")
-                <button type="button" class="btn btn-default right" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
