@@ -149,4 +149,28 @@ namespace Household_Budgeter.Models
         public string Password { get; set; }
 
     }
+
+    public class DashboardViewModels
+    {
+        public Household Households { get; set; }
+        public ICollection<Invitation> Invitations { get; set; }
+        public Budget Budgets { get; set; }
+        public ICollection<BankAccount> BankAccounts { get; set; }
+        public ICollection<Transaction> Transactions { get; set; }
+        public ICollection<Category> Categories { get; set; }
+        public BudgetItem BudgetItems { get; set; }
+
+        public int GetBudgetId { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTimeOffset begin { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTimeOffset end { get; set; }
+
+
+        public int setLowBalance { get; set; }
+
+
+    }
 }
