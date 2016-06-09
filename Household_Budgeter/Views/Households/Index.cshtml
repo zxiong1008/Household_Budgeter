@@ -7,7 +7,7 @@
 <br />
 <div class="panel panel-success">
     <div class="panel-heading">
-        <dkv class="panel-title"><h2>Household Information</h2></dkv>
+        <dkv class="panel-title"><h2> <i class="fa fa-group"></i> Household Information</h2></dkv>
     </div>
     <div class="panel-body">
         <table class="table">
@@ -48,9 +48,9 @@
                 }
 
                 <td>
-                    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-default">Change Name</a>
-                    <a href="@Url.Action("Details", new { id = Model.Id })" class="btn btn-default">View Details</a>
-                    <a data-toggle="modal" href="#leaveHousehold" class="btn btn-default">Leave Household</a>
+                    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning"><i class="fa fa-edit"></i> Change Name</a>
+                    <a href="@Url.Action("Details", new { id = Model.Id })" class="btn btn-info"><i class="fa fa-search"></i> View Details</a>
+                    <a data-toggle="modal" href="#leaveHousehold" class="btn btn-danger"><i class="fa fa-chain"></i> Leave Household</a>
                 </td>
             </tr>
         </table>
@@ -68,7 +68,7 @@
 
                 <div class="panel panel-danger">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Leaving?</h3>
+                        <h3 class="panel-title"><i class="fa fa-chain-broken"></i> Leaving?</h3>
                     </div>
                     <div class="panel-body">
                         Are you sure you want to leave <mark>@Model.Name</mark>?

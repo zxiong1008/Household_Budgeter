@@ -10,11 +10,11 @@
         <div class="panel panel-success">
             <div class="panel-heading">
                 <div  class="panel-title">
-                    <h2>Budget Items<a data-toggle="modal" href="#create" class="btn btn-default pull-right">Add A New Element</a></h2>
+                    <h2><i class="fa fa-cubes"></i> Budget Items<a data-toggle="modal" href="#create" class="btn btn-default pull-right">Add A New Element</a></h2>
                 </div>
             </div>
             <div class="panel-body">
-                <table class="table" id="budgetItemTable">
+                <table class="table" id="budgetItemsTable">
                     <thead>
                         <tr>
                             <th>
@@ -34,20 +34,20 @@
                         {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Budget.Name)
+                                    <i class="fa fa-cube"></i> @Html.DisplayFor(modelItem => item.Budget.Name)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Category.Name)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Amount)
+                                    @item.Amount.ToString("C")
                                 </td>
                                 <td>
-                                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                                    <div class="delete-section">
-                                        <a class="delete-link" href="@Url.Action("Delete", new {id = item.Id})">Delete</a>
-                                        <div class="btn btn-danger btn-sm delete-confirm" style="display:none" data-delete-id="@item.Id">Confirm Delete</div>
-                                    </div>
+                                    <a href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil btn btn-xs btn-warning"></i></a>
+                                    <span class="delete-section">
+                                        <a class="delete-link" href="@Url.Action("Delete", new {id = item.Id})"><i class="fa fa-close btn btn-xs btn-danger"></i></a>
+                                        <span class="btn btn-danger btn-xs delete-confirm" style="display:none" data-delete-id="@item.Id">Confirm Delete</span>
+                                    </span>
                                 </td>
                             </tr>
                         }

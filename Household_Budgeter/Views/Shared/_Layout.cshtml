@@ -10,49 +10,58 @@
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <style>
+        body{
+            padding: 0;
+        }
+    </style>
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <div class="div-col-3" id="sidebar">
+        <ul class="nav nav-pills nav-stacked text-center navbar-collapse">
+            <li><img src="https://sparkleandshinesami.files.wordpress.com/2013/06/saving-money.jpg?w=300&h=199" class="img-rounded img-responsive" id="side-img" /></li>
+            <li role="presentation" class="dropdown">
+                <a class="dropdown-toggle text-center" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-plus-square fa-2x"></i>
+                    @if(User.Identity.IsAuthenticated){
+                        @Html.Raw("Welcome!")
+                    }
+                    else{
+                        @Html.ActionLink("Login", "Login", "Account")
+                    }
+
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="@Url.Action("Index", "Home")"><span class="fa fa-home fa-2x"></span> Home</a></li>
+                    <li><a href="@Url.Action("About", "Home")"><span class="fa fa-magic fa-2x"></span> About</a></li>
+                    <li><a href="@Url.Action("Contact", "Home")"><span class="fa fa-phone fa-2x"></span> Contact</a></li>
+                    <li><a href="http://github.com/zxiong1008"><i class="fa fa-github fa-2x"></i>Zeng's GitHub</a></li>
+                    <li><a href="http://zengxiong.azurewebsites.net/"><i class="fa fa-black-tie fa-2x"></i>Zeng's Profile</a></li>
+                    <li><a href="http://zxiong-bugtracker.azurewebsites.net/"><i class="fa fa-bug fa-2x"></i>BugTracker</a></li>
                 </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
+            </li>
+            @if (User.Identity.IsAuthenticated)
+            {
+            <li><a href="@Url.Action("Dashboard", "Home")" class="text-center"><i class="fa fa-calculator fa-2x"></i> Household Budgeter Application</a></li>
+            <li><a href="@Url.Action("Index", "HouseHolds")"><i class="fa fa-group fa-2x"></i> Household</a></li>
+            <li><a href="@Url.Action("Index", "Invitations")"><i class="fa fa-envelope fa-2x"></i> Invitations</a></li>
+            <li><a href="@Url.Action("Index", "BankAccounts")"><i class="fa fa-bank fa-2x"></i> BankAccounts</a></li>
+            <li><a href="@Url.Action("Index", "Transactions")"><i class="fa fa-archive fa-2x"></i> Transactions</a></li>
+            <li><a href="@Url.Action("Index", "Budgets")"><i class="fa fa-balance-scale fa-2x"></i> Budgets</a></li>
+            <li><a href="@Url.Action("Index", "BudgetItems")"><i class="fa fa-cubes fa-2x"></i> BudgetItems</a></li>
+            <li><a href="@Url.Action("Index", "Categories")"><i class="fa fa-database fa-2x"></i> Categories</a></li>
+
+            }
+        </ul>
     </div>
 
-    @if (User.Identity.IsAuthenticated)
-    {
-        <div class="div-col-3" id="sidebar">
-            <ul class="nav nav-pills nav-stacked text-center">
-                <li><img src="https://sparkleandshinesami.files.wordpress.com/2013/06/saving-money.jpg?w=300&h=199" class="img-circle img-responsive" id="side-img" />@Html.ActionLink("Household Budgeter Application", "Dashboard", "Home")</li>
-                <li>@Html.ActionLink("Households", "Index", "HouseHolds")</li>
-                <li>@Html.ActionLink("Invitations", "Index", "Invitations")</li>
-                <li>@Html.ActionLink("Bank Accounts", "Index", "BankAccounts")</li>
-                <li>@Html.ActionLink("Transactions", "Index", "Transactions")</li>
-                <li>@Html.ActionLink("Budgets", "Index", "Budgets")</li>
-                <li>@Html.ActionLink("BudgetItems", "Index", "BudgetItems")</li>
-                <li>@Html.ActionLink("Categories", "Index", "Categories")</li>
 
-            </ul>
-        </div>
-    }
-
-    @if (User.Identity.IsAuthenticated)
-    {
         <div id="main">
             <div class="container body-content">
                 @RenderBody()
@@ -62,17 +71,7 @@
                 </footer>
             </div>
         </div>
-    }
-    else
-    {
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-        </div>
-    }
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
@@ -83,13 +82,13 @@
     <script src="~/Scripts/jquery.dotdotdot.js"></script>
 
     <script src="~/Scripts/Budget.js"></script>
-    
+
     <script>
         $(document).ready(function () {
             $('#transactionTable').DataTable();
             $('#categoriesTable').DataTable();
-            $('#budgetItemTable').DataTable({ "pageLength": 5 });
-            $('#budgetTable').DataTable({ "pageLength": 5 });
+            $('#budgetItemsTable').DataTable({ "pageLength": 5 });
+            $('#budgetsTable').DataTable({ "pageLength": 5 });
         });
     </script>
 

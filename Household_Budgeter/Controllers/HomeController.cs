@@ -20,7 +20,11 @@ namespace Household_Budgeter.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "This section describes all requirements, both functional and non-functional,"
+                + "for as this project as set forth by Coder Foundry staff. All requirements outlined herin"
+                + "must be met and demonstrated in the resulting software application for the project to be"
+                + "considerered \"completed.\" Any missing requirements/features will result in the project"
+                + "bbeing deemed inadequate.";
 
             return View();
         }

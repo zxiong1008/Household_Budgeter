@@ -1,32 +1,110 @@
-﻿#sidebar {
-    width: 200px;
+﻿/*Personal Budget CSS Scripts*/
+
+/*div.navbar-inverse, div.navbar-inverse .navbar-nav > li > a, div.navbar-inverse .navbar-brand{
+    background-color: #dff0d8;
+    border-color: #d6e9f6;
+    color: #468847;
+}*/
+
+/* hover, give it a border radius */
+/*div.navbar-inverse .navbar-nav > li > a:hover, div.navbar-inverse .navbar-brand:hover,ul.dropdown-menu > li > a{
+    border-radius: 20px 2px;
+}*/
+
+ul.dropdown-menu{
+    border: 4px solid rgba(70,136,71, 0.8)
+}
+
+#sidebar > .nav .fa .fa-angle-double-down {
+  border-top-color: #468847;
+  border-bottom-color: #468847;
+}
+
+.nav a:hover .caret {
+  border-top-color: #468847;
+  border-bottom-color: #468847;
+}
+
+ul.dropdown-menu, ul.dropdown-menu > li > a{
+    background-color: #dff0d8;
+    color: #468847;
+    border-radius: 5px;
+    min-width: 100%;
+}
+
+#sidebar {
+    width: 250px;
     float: left;
-    background: #222;
     min-height: 100vh;
-    color: white;
     position: fixed;
     z-index: 10;
 }
 
-#sidebar > ul > li > a {
-    color:white;
+#sidebar > ul > li > a{
+    background-color: #dff0d8;
+    border-color: #d6e9f6;
+    color: #468847;
 }
+@keyframes example {
+    from {background-color: #dff0d8;}
+    to {background-color: #468847;}
+}
+
+/* The element to apply the animation to when hovered */
+#sidebar > ul > li > a:hover , div.navbar-inverse .navbar-nav > li > a:hover, div.navbar-inverse .navbar-brand:hover, ul.dropdown-menu > li > a:hover{
+    background-color: #dff0d8;
+    border-color: #d6e9f6;
+    color: #dff0d8;
+    animation-name: example;
+    animation-duration: 1s;
+}
+
+#sidebar > ul > li > a:hover , div.navbar-inverse .navbar-nav > li > a:hover, div.navbar-inverse .navbar-brand:hover, ul.dropdown-menu > li > a:hover{
+    background-color: #468847;
+    border-color: #d6e9f6;
+    color: #dff0d8;
+}
+
+
+
+#sidebar ul li i {
+    z-index: -1;
+    position: center;
+    min-height: 50%;
+  
+}
+
 
 #main {
-  margin-left:200px;
- }
+    margin-left: 250px;}
 
-#side-img{
-    padding: 15px;
+#side-img {
+    padding: 1px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
-input, select, textarea{
+input, select, textarea {
     min-width: 100%;
 }
 
 /*Modal CSS*/
 @media screen and (min-width: 768px) {
-	
-	#create .modal-dialog  {width: 60%;}
 
+    #create .modal-dialog {
+        width: 60%;
+    }
+}
+
+#datatable > thead > tr > th, #datatable > tbody > tr > td {
+    text-align: center;
+}
+
+#datatable > tbody > tr > th {
+    text-align: right;
+}
+
+div .jumbotron {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #468847;
 }

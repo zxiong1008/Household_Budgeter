@@ -86,8 +86,10 @@ namespace Household_Budgeter.Controllers
             //then the user's budget
             Budget budget = db.Budgets.FirstOrDefault(b => b.Id == id);
 
+            BudgetItem budgetItem = db.BudgetItems.FirstOrDefault(b => b.Id == budget.Id);
+
             //then the budget's household owner
-            Household household = db.Households.FirstOrDefault(h => h.Id == budget.Id);
+            Household household = db.Households.FirstOrDefault(h => h.Id == budgetItem.Id);
 
             if (!household.Members.Contains(user))
             {

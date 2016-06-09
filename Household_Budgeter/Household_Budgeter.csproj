@@ -420,6 +420,15 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\btn-social\assets\css\bootstrap.css" />
+    <Content Include="Content\btn-social\assets\css\docs.css" />
+    <Content Include="Content\btn-social\assets\css\font-awesome.css" />
+    <Content Include="Content\btn-social\assets\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\btn-social\assets\img\bootstrap-social.png" />
+    <Content Include="Content\btn-social\assets\js\docs.js" />
+    <Content Include="Content\btn-social\assets\js\jquery.js" />
+    <Content Include="Content\btn-social\bootstrap-social.css" />
+    <Content Include="Content\btn-social\index.html" />
     <Content Include="Content\Budget.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
@@ -446,6 +455,19 @@
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Content\btn-social\.editorconfig" />
+    <Content Include="Content\btn-social\.gitignore" />
+    <Content Include="Content\btn-social\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\btn-social\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\btn-social\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\btn-social\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\btn-social\assets\fonts\FontAwesome.otf" />
+    <Content Include="Content\btn-social\bootstrap-social.less" />
+    <Content Include="Content\btn-social\bootstrap-social.scss" />
+    <Content Include="Content\btn-social\bower.json" />
+    <Content Include="Content\btn-social\LICENSE" />
+    <Content Include="Content\btn-social\package.json" />
+    <Content Include="Content\btn-social\README.md" />
     <None Include="Properties\PublishProfiles\zxiong-budget %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\zxiong-budget.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
