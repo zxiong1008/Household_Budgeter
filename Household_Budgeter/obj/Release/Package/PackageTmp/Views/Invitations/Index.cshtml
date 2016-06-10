@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Household_Budgeter.Models.Invitation>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br/>
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <h2><i class="fa fa-envelope"></i> Household Invitations<a data-toggle="modal" href="#create" class="btn btn-default pull-right">Send An Invitation</a></h2>
+        </div>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Households.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.User.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.JoinCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ToEmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Joined)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Households.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.User.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.JoinCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ToEmail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Joined)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Delete", new { id=item.Id })" class="btn btn-danger">Delete Invitation</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="create" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="container" style="padding: 20px">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                @Html.Action("Create")
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

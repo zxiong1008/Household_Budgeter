@@ -1,0 +1,298 @@
+﻿@model Household_Budgeter.Models.DashboardViewModels
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <!--Recent Transaction Panel-->
+                    <div class="col-md-12">
+                        <h2></h2>
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h2><i class="fa fa-archive"></i> Recent Transactions <a data-toggle="modal" href="#createT" class="btn btn-sm btn-success">Make Transaction</a></h2>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="list-unstyled">
+                                    <li class="text-muted">
+                                        <strong><i class="fa fa-user"></i> UserName </strong>
+                                        <p>
+                                            <span>
+                                                Income/Expense
+                                                | $ 00.00 | Bank Account Type | Category Type | Description | Date
+                                            </span>
+                                        </p>
+                                    </li>
+                                    @foreach (var tran in Model.Transactions)
+                                    {
+                                        <li>
+                                            <strong><i class="fa fa-user"></i> @tran.User.FirstName @tran.User.LastName</strong>
+                                            <p>
+                                                <span>
+                                                    @if (tran.Types == true)
+                                                    {
+                                                        <span class="text-success"><b>@("Income")</b></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-danger"><b>@("Expense")</b></span>
+                                                    }
+                                                    | @string.Format("{0:C}", tran.Amount) | @tran.BankAccounts.Name | @tran.Category.Name
+                                                </span>
+                                            </p>
+                                            <p class="p-meta">
+                                                <span>@tran.Description</span>
+                                            </p>
+                                            <p class="p-meta">
+                                                <!-- Due date & % Completed -->
+                                                <span>@tran.Date.ToString("D")</span>
+                                            </p>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Accounts and Balances Panel-->
+                    <div class="col-md-12">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h2><i class="fa fa-university"></i> Accounts / Balances <a data-toggle="modal" href="#createB" class="btn btn-sm btn-success">Add Bank Account</a></h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th>Account Name</th>
+                                                <th>Balance</th>
+                                                <th>Reconciled</th>
+                                                <th>Control</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.BankAccounts)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.Name)
+                                                    </td>
+                                                    <td>
+                                                        @string.Format("{0:C}", item.Balance)
+                                                    </td>
+                                                    <td>
+                                                        @string.Format("{0:C}", item.ReconcileBalance)
+                                                    </td>
+                                                    <td>
+                                                        <a href="@Url.Action("Edit", "Accounts", new { id = item.Id })"><i class="fa fa-pencil btn btn-xs btn-warning"></i></a>
+                                                        <a href="@Url.Action("Delete", "Accounts", new { id = item.Id })"><i class="fa fa-times btn btn-xs btn-danger"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <!-- Spending Panel-->
+                    <div class="col-md-12">
+                        <h2>
+                            @foreach (var item in Model.BankAccounts) //retrieve everything from Model Accounts until empty
+                            {
+                                if (item.Balance < item.WarningBalance) //if the account balance if less than the warning Balance
+                                {
+                                    <strong class="text-danger"> @item.Name  @(" Account is low on Balance!")</strong> //return balance and message
+                                }
+                            }
+                        </h2>
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h2><i class="fa fa-cc-paypal "></i> Spending</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <!-- Table heading -->
+                                        <thead>
+                                            <tr>
+                                                <th>@Model.begin.ToString("MMMM yyyy") Transaction Spent</th>  <!--Return the date of the beginning of the month and year-->
+                                                <th>Budget Balance</th>
+                                                <th>Balance left to spend</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    @string.Format("{0:C}", Model.Transactions.Where(t => t.Types == false).Sum(t => t.Amount))
+                                                </td>
+                                                <td>
+                                                    @string.Format("{0:C}", Model.Budgets.BudgetItems.Sum(t => t.Amount))
+                                                </td>
+                                                <td>
+                                                    @if ((Model.Budgets.BudgetItems.Sum(t => t.Amount) - Model.Transactions.Sum(t => t.Amount)) < 0)
+                                                    {
+                                                        <p class="red">Budget Spending has been exceeded!!! of  @(string.Format("{0:C}", Model.Budgets.BudgetItems.Sum(t => t.Amount) - Model.Transactions.Sum(t => t.Amount)))</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="green"><b>@(string.Format("{0:C}", Model.Budgets.BudgetItems.Sum(t => t.Amount) - Model.Transactions.Sum(t => t.Amount)))</b></p>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Chart Panel -->
+                    <div class="col-md-12">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h2><i class="fa fa-bar-chart"></i> Budget Balance Chart</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    @using (Html.BeginForm("UpdateChart", "Home", FormMethod.Post))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="col-md-5">
+                                            <b>Budget Name:</b>  @Html.DropDownList("BudgetId", null, htmlAttributes: new { @class = "form-control", onchange = "this.form.submit();" })
+                                        </div>
+                                    }
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            <div class="col-md-2 col-md-offset-2">
+                                                <b>Begin Date:</b>
+                                                <h4> @Html.DisplayFor(c => c.begin, new { @class = " panel form-control" })</h4>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <br />
+                                                <h4>To</h4>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <b>End Date:</b>
+                                                <h4>
+                                                    @Html.DisplayFor(c => c.end, new { @class = " panel endDate form-control" })
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div id="container"></div>
+                                    <table class="table table-bordered" id="datatable">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>BudgetItems</th>
+
+                                                <th>Monthly Transactions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var v in Model.Budgets.BudgetItems)
+                                            {
+                                                <tr>
+                                                    <th>
+                                                        @v.Category.Name
+                                                    </th>
+                                                    <td>
+                                                        @v.Amount
+                                                    </td>
+                                                    <td>
+                                                        @Model.Transactions.Where(a => a.CategoryId == v.CategoryId && a.Date >= Model.begin && a.Date <= Model.end).Sum(t => t.Amount)
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Create Budget -->
+<div class="modal fade" id="createB" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="container" style="padding:20px;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                @Html.Action("Create", "BankAccounts")
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal Create Transaction -->
+<div class="modal fade" id="createT" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="container" style="padding:20px;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                @Html.Action("Create", "Transactions")
+                <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts{
+    
+    @*<style>
+        #datatable > tbody > tr > th, #datatable > thead > tr > th  {
+            text-align: center;
+        }
+    </style>*@
+    
+    <script type="text/javascript">
+        $(function () {
+            $('#container').highcharts({
+                data: {
+                    table: 'datatable'
+                },
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Monthly Budget Balance Transactions'
+                },
+                yAxis: {
+                    allowDecimals: true,
+                    title: {
+                        text: 'Amount'
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        return this.series.name + '</b><br/>' +
+                            + '$' + this.point.y + ' ' + this.point.name.toLowerCase();
+                    }
+                }
+            });
+        });
+    </script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="~/Scripts/Highcharts-4.0.1/js/themes/sand-signika.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
+}

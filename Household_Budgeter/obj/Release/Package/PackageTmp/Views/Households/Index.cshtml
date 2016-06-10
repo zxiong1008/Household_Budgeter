@@ -1,33 +1,85 @@
-﻿@model IEnumerable<Household_Budgeter.Models.Household>
+﻿@model Household_Budgeter.Models.Household
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<br />
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <dkv class="panel-title"><h2> <i class="fa fa-group"></i> Household Information</h2></dkv>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    Members
+                </th>
+                <th>
+                    BankAccounts
+                </th>
+                <th>
+                    Savings
+                </th>
+                <th>
+                    Checking
+                </th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>
+                    @Model.Name
+                </td>
+                <td>
+                    @Model.Members.Count()
+                </td>
+                <td>
+                    @Model.BankAccounts.Count()
+                </td>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th></th>
-    </tr>
+                @foreach (var item in Model.BankAccounts)
+                {
+                    <td>
+                        @item.Balance.ToString("C")
+                    </td>
+                }
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+                <td>
+                    <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning"><i class="fa fa-edit"></i> Change Name</a>
+                    <a href="@Url.Action("Details", new { id = Model.Id })" class="btn btn-info"><i class="fa fa-search"></i> View Details</a>
+                    <a data-toggle="modal" href="#leaveHousehold" class="btn btn-danger"><i class="fa fa-chain"></i> Leave Household</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 
-</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="leaveHousehold" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="container" style="padding: 20px">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-chain-broken"></i> Leaving?</h3>
+                    </div>
+                    <div class="panel-body">
+                        Are you sure you want to leave <mark>@Model.Name</mark>?
+                        Once you leave, you will lose access to all accounts.
+                    </div>
+                </div>
+                <form method="Post" action="@Url.Action("Leave")">
+                    <input type="submit" class="btn btn-danger pull-right" />
+                </form>
+                <input type="button" class="btn btn-default pull-right"  data-dismiss="modal" value="Close" />
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

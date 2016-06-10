@@ -8,6 +8,14 @@ namespace Household_Budgeter.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
     }
 
     public class ExternalLoginListViewModel
@@ -77,7 +85,6 @@ namespace Household_Budgeter.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required]
         [Display(Name = "Household Name")]
         public string HouseholdName { get; set; }
 

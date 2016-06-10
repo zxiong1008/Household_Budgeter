@@ -4,55 +4,59 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>@ViewBag.Title</h2>
 
-<div>
-    <h4>BankAccount</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.HouseHold.Name)
-        </dt>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.HouseholdId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InitialBalance)
+            </th>
+            <th>
+                Warning Balance
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReconcileBalance)
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => Model.HouseholdId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Name)
+            </td>
+            <td>
+                @Model.Created.ToString("D")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.Balance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.InitialBalance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.WarningBalance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => Model.ReconcileBalance)
+            </td>
+        </tr>
+    </table>
 
-        <dd>
-            @Html.DisplayFor(model => model.HouseHold.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Balance)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Balance)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ReconcileBalance)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ReconcileBalance)
-        </dd>
-
-    </dl>
-</div>
-<p>
+<p class="text-right">
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Update", "Update", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
