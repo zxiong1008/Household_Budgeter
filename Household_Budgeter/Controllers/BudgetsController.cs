@@ -33,7 +33,6 @@ namespace Household_Budgeter.Controllers
             {
                 return RedirectToAction("Create", "households");
             }
-
             return View(budgets);
         }
 
@@ -53,12 +52,25 @@ namespace Household_Budgeter.Controllers
         }
 
         // GET: Budgets/Create
-        public PartialViewResult Create()
+        public PartialViewResult _CreateBudget()
         {
-            ViewBag.HouseHoldId = new SelectList(db.Households, "Id", "Name");
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            var getHouse = db.Households.Where(u => user.HouseholdId== u.Id).ToList();
+
+            ViewBag.HouseHoldId = new SelectList(getHouse, "Id", "Name");
             return PartialView();
         }
 
+        public PartialViewResult Create()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            var getHouse = db.Households.Where(u => user.HouseholdId == u.Id).ToList();
+
+            ViewBag.HouseHoldId = new SelectList(getHouse, "Id", "Name");
+            return PartialView();
+        }
         // POST: Budgets/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -70,7 +82,7 @@ namespace Household_Budgeter.Controllers
             {
                 db.Budgets.Add(budget);
                 db.SaveChanges();
-                return RedirectToAction("Index", "BudgetItems");
+                return RedirectToAction("Index");
             }
 
             ViewBag.HouseHoldId = new SelectList(db.Households, "Id", "Name", budget.HouseHoldId);

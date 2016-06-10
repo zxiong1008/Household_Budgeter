@@ -434,6 +434,7 @@
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\font-awesome\css\font-awesome.css" />
     <Content Include="Content\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\zocial.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -644,6 +645,10 @@
     <Content Include="Views\BudgetItems\Edit.cshtml" />
     <Content Include="Views\BudgetItems\Index.cshtml" />
     <Content Include="Views\Home\Dashboard.cshtml" />
+    <Content Include="Views\Shared\_CreateBudget.cshtml" />
+    <Content Include="Views\Shared\_CreateInv.cshtml" />
+    <Content Include="Views\Shared\_CreateBankAccount.cshtml" />
+    <Content Include="Views\Shared\_CreateTrans.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

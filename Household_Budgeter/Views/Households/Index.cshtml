@@ -10,22 +10,16 @@
         <dkv class="panel-title"><h2> <i class="fa fa-group"></i> Household Information</h2></dkv>
     </div>
     <div class="panel-body">
-        <table class="table">
+        <table class="table table-responsive">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    Household Name
                 </th>
                 <th>
                     Members
                 </th>
                 <th>
-                    BankAccounts
-                </th>
-                <th>
-                    Savings
-                </th>
-                <th>
-                    Checking
+                    Bank Accounts
                 </th>
                 <th></th>
             </tr>
@@ -39,20 +33,45 @@
                 <td>
                     @Model.BankAccounts.Count()
                 </td>
-
-                @foreach (var item in Model.BankAccounts)
-                {
-                    <td>
-                        @item.Balance.ToString("C")
-                    </td>
-                }
-
                 <td>
                     <a href="@Url.Action("Edit", new { id = Model.Id })" class="btn btn-warning"><i class="fa fa-edit"></i> Change Name</a>
                     <a href="@Url.Action("Details", new { id = Model.Id })" class="btn btn-info"><i class="fa fa-search"></i> View Details</a>
                     <a data-toggle="modal" href="#leaveHousehold" class="btn btn-danger"><i class="fa fa-chain"></i> Leave Household</a>
                 </td>
             </tr>
+        </table>
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Bank Name</th>
+                    <th>Balance</th>
+                    <th>Initial</th>
+                    <th>Reconcile</th>
+                    <th>Warning</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.BankAccounts)
+                {
+                    <tr>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.Balance.ToString("C")
+                        </td>
+                        <td>
+                            @item.InitialBalance.ToString("C")
+                        </td>
+                        <td>
+                            @item.ReconcileBalance.ToString("C")
+                        </td>
+                        <td>
+                            @item.WarningBalance.ToString("C")
+                        </td>
+                    </tr>                    
+                }
+            </tbody>
         </table>
     </div>
 </div>
@@ -78,7 +97,7 @@
                 <form method="Post" action="@Url.Action("Leave")">
                     <input type="submit" class="btn btn-danger pull-right" />
                 </form>
-                <input type="button" class="btn btn-default pull-right"  data-dismiss="modal" value="Close" />
+                <input type="button" class="btn btn-default pull-right" data-dismiss="modal" value="Close" />
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

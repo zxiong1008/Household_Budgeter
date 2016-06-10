@@ -62,7 +62,7 @@ namespace Household_Budgeter.Controllers
 
             if (model.Households.Budgets.Count == 0)
             {
-                return RedirectToAction("Create", "Budgets");
+                return RedirectToAction("Index", "Budgets");
             }
 
             //Get currentbudget for this

@@ -36,6 +36,17 @@ namespace BudgetYou.Controllers
             return View(invitations);
         }
 
+        public PartialViewResult _CreateInv()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            var userHousehold = db.Households.AsNoTracking().Where(u => user.HouseholdId == u.Id).ToList();
+
+            ViewBag.HouseholdId = new SelectList(userHousehold, "Id", "Name");
+
+            return PartialView();
+        }
+
         // GET: Invitations/Create
         [HttpGet]
         [Authorize]

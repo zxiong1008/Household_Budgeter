@@ -87,27 +87,23 @@
     </table>
 
     <div class="form-group">
-        <a type="submit" data-toggle="modal" href="#SaveAccount" class="btn btn-default">Update</a>
+        <input type="submit" class="btn btn-primary" value="Update"/>
     </div>
 
-    if (Model.ReconcileBalance <= Model.WarningBalance)
+    if (Model.WarningBalance >= Model.Balance)
     {
         <!-- Modal -->
-        <div class="modal fade" id="SaveAccount" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="warning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header text-danger">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title">Modal title</h4>
+                        <h4 class="modal-title"><i class="fa fa-warning"></i> Friendly Reminder</h4>
                     </div>
-                    <div class="modal-body">
-                        Are you sure you want to leave <mark>@Model.Name</mark>?
-                        You will lose access to your bank account(s).
-                    </div>
+                    <p class="modal-body bg-danger">
+                        Your <mark>@Model.Name Account</mark> has reached it's warning balance.
+                    </p>
                     <div class="modal-footer">
-                        <form method="Post" action="@Url.Action("Update")">
-                            <input type="submit" class="btn btn-danger pull-right" />
-                        </form>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div><!-- /.modal-content -->
@@ -116,10 +112,17 @@
     }
 }
 
+
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
+@section Scripts{
+    <script type="text/javascript">
+        $(window).load(function () {
+            $('#warning').modal('show');
+        });
+    </script>
 
 <script>
     function postRec(id) {
@@ -181,3 +184,4 @@
         });
     }
 </script>
+}

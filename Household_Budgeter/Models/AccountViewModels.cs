@@ -6,15 +6,15 @@ namespace Household_Budgeter.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "*Email")]
         public string Email { get; set; }
 
         [Required]
-        [Display(Name = "First Name")]
+        [Display(Name = "*First Name")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Last Name")]
+        [Display(Name = "*Last Name")]
         public string LastName { get; set; }
     }
 
@@ -73,16 +73,16 @@ namespace Household_Budgeter.Models
     public class RegisterViewModel
     {
         [Required]
-        [Display(Name = "First Name")]
+        [Display(Name = "*First Name")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "Last Name")]
+        [Display(Name = "*Last Name")]
         public string LastName { get; set; }
 
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "*Email")]
         public string Email { get; set; }
 
         [Display(Name = "Household Name")]

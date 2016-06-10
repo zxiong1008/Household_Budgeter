@@ -42,6 +42,18 @@ namespace Household_Budgeter.Controllers
         //}
 
         // GET: Transactions/Create
+        public PartialViewResult _CreateTrans()
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+
+            var getAccount = db.BankAccounts.Where(u => user.HouseholdId == u.HouseholdId).ToList();
+
+            ViewBag.BankAccountsId = new SelectList(getAccount, "Id", "Name");
+            ViewBag.CategoryId = new SelectList(db.Category, "Id", "Name");
+            return PartialView();
+        }
+
+        // GET: Transactions/Create
         public PartialViewResult Create()
         {
             var user = db.Users.Find(User.Identity.GetUserId());
