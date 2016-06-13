@@ -31,7 +31,8 @@ namespace Household_Budgeter.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "If you're impressed in my application and would like to do business with me."
+                + "My information is as shown below. Thank you for visiting.";
 
             return View();
         }

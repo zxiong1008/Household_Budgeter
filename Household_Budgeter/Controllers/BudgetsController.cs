@@ -178,11 +178,6 @@ namespace Household_Budgeter.Controllers
             //then the budget's household owner
             Household household = db.Households.FirstOrDefault(h => h.Id == budget.Id);
 
-            if (!household.Members.Contains(user))
-            {
-                return RedirectToAction("Unauthorized", "Error");
-            }
-
             db.Budgets.Remove(budget);
             db.SaveChanges();
             return RedirectToAction("Index");

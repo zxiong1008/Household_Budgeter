@@ -14,7 +14,7 @@
             removeEvents();
             confirmButton.hide();
             $.post(
-                '@Url.Action("Delete")',
+                '/BankAccounts/Delete/',
                 AddAntiForgeryToken({ id: confirmButton.attr('data-delete-id') }))
                .done(function () {
                    var parentRow = deleteLink.parents("tr:first");

@@ -60,19 +60,42 @@ namespace Household_Budgeter.Controllers
         {
             if (ModelState.IsValid)
             {
+                //previously users could create a matching name and be added to existing household
+                //now, new house is created
                 var user = db.Users.Find(User.Identity.GetUserId());
 
                 if (user.HouseholdId == null)
                 {
-                    db.Households.Add(household);
+                    Household household2 = household;
+                    db.Households.Add(household2 = new Household {
+                        Name = household.Name
+                    });
                     db.SaveChanges();
 
-                    var getHousehold = db.Households.FirstOrDefault(h => h.Name == household.Name);
-                    user.HouseholdId = getHousehold.Id;
+                    user.HouseholdId = household2.Id;
+
+                    household2.BankAccounts.Add(new BankAccount
+                    {
+                        Name = "Checkings",
+                        Created = new DateTimeOffset(DateTime.Now),
+                        Balance = 0,
+                        InitialBalance = 0,
+                        ReconcileBalance = 0,
+                        WarningBalance = 0
+                    });
+                    household2.BankAccounts.Add(new BankAccount
+                    {
+                        Name = "Savings",
+                        Created = new DateTimeOffset(DateTime.Now),
+                        Balance = 0,
+                        InitialBalance = 0,
+                        ReconcileBalance = 0,
+                        WarningBalance = 0
+                    });
 
                     db.SaveChanges();
 
-                    return RedirectToAction("Index", new { id = getHousehold.Id });
+                    return RedirectToAction("Index", new { id = household2.Id });
                 }
                 else
                 {

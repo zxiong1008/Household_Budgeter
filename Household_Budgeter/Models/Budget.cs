@@ -62,6 +62,7 @@ namespace Household_Budgeter.Models
         [Required]
         //debit/credit
         public bool Types { get; set; }
+        public bool Void { get; set; }
 
         public decimal Amount { get; set; }
         public decimal? ReconciledAmount { get; set; }

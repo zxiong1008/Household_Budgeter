@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<br/>
+<br />
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-success">
@@ -18,28 +18,28 @@
                     <thead>
                         <tr>
                             <th>
-                                @Html.DisplayNameFor(model => model.Category.Name)
+                                Category
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.User.FirstName)
+                                User
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.BankAccounts)
+                                Account
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Date)
+                                Date
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Types)
+                                Type
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Amount)
+                                Amount
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.ReconciledAmount)
+                                Reconciled Amount
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Reconciled)
+                                isReconciled
                             </th>
                             <th></th>
                         </tr>
@@ -50,14 +50,17 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Category.Name)
+                                <td id="">
+                                    @item.Category.Name
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.User.FirstName)
+                                    @{
+                                        var username = item.User.FirstName + " " + item.User.LastName;
+                                    }
+                                    @Html.Raw(username)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.BankAccounts.Name)
+                                    @item.BankAccounts.Name
                                 </td>
                                 <td>
                                     @item.Date.ToString("D")
@@ -65,7 +68,7 @@
                                 <td>
                                     @if (item.Types == true)
                                     {
-                                        @Html.Raw("Income")
+                                        @Html.Raw("Deposit")
                                     }
                                     else
                                     {
@@ -95,7 +98,7 @@
                                     </span>
                                 </td>
                             </tr>
-                        }
+                                        }
                     </tbody>
                 </table>
             </div>
@@ -103,7 +106,7 @@
     </div>
     <div class="col-md-12">
         <br />
-        
+
     </div>
 </div>
 

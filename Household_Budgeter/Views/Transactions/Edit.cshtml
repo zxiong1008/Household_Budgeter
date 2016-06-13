@@ -33,10 +33,10 @@
 
         <div class="form-group">
             <div class="col-md-7 pull-right">
-                @Html.RadioButton("Types", false) <text class="red"><b>Expense</b></text>
+                @Html.RadioButton("Types", false) <text class="red"><b>Withdraw</b></text>
             </div>
             <div class="col-md-2 pull-right">
-                @Html.RadioButton("Types", true) <text class="green"><b>Income</b></text>
+                @Html.RadioButton("Types", true) <text class="green"><b>Deposit</b></text>
             </div>
             @Html.ValidationMessageFor(model => model.Types, "", new { @class = "text-danger" })
         </div>

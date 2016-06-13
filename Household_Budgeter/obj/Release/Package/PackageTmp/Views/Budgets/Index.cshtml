@@ -4,6 +4,7 @@
     ViewBag.Title = "Index";
 }
 
+
 <br />
 <div class="panel panel-success">
     <div class="panel-heading">
@@ -48,6 +49,37 @@
     </div>
 </div>
 
+@*@foreach (var item in Model)
+{
+    if (item.Household.Budgets.Count < 1)
+    {
+        <div class="modal fade" id="warning" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header text-danger">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title"><i class="fa fa-warning"></i> No budget has been created</h4>
+                    </div>
+                    <p class="modal-body bg-danger">
+                        You must have a budget before your dashboard can be used.
+                    </p>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    }
+}*@
+
+@*@section Scripts{
+    <script type="text/javascript">
+    $(window).load(function(){
+        $('#warning').modal('show');
+    });
+    </script>
+}*@
+
 
 
 <!-- Modal -->
@@ -70,7 +102,7 @@
                         </ul>
                         <div class="tab-content">
                             <div id="home" class="tab-pane fade in active">
-                                @Html.Action("Create")
+                                @Html.Action("_CreateBudget", "Budgets")
                             </div>
                             <div id="menu1" class="tab-pane fade">
                                 @Html.Action("Create", "BudgetItems")
@@ -86,3 +118,4 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+

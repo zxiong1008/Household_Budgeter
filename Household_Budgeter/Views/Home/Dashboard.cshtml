@@ -21,7 +21,7 @@
                                         <strong><i class="fa fa-user"></i> UserName </strong>
                                         <p>
                                             <span>
-                                                Income/Expense
+                                                Deposit/Withdraw
                                                 | $ 00.00 | Bank Account Type | Category Type | Description | Date
                                             </span>
                                         </p>
@@ -34,22 +34,22 @@
                                                 <span>
                                                     @if (tran.Types == true)
                                                     {
-                                                        <span class="text-success"><b>@("Income")</b></span>
+                                                        <span class="text-success"><b>@("Deposit")</b></span>
                                                     }
                                                     else
                                                     {
-                                                        <span class="text-danger"><b>@("Expense")</b></span>
+                                                        <span class="text-danger"><b>@("Withdraw")</b></span>
                                                     }
                                                     | @string.Format("{0:C}", tran.Amount) | @tran.BankAccounts.Name | @tran.Category.Name
                                                 </span>
                                             </p>
-                                            <p class="p-meta">
-                                                <span>@tran.Description</span>
-                                            </p>
-                                            <p class="p-meta">
+                                            <span class="p-meta">
+                                                <span> | @tran.Description</span>
+                                            </span>
+                                            <span class="p-meta">
                                                 <!-- Due date & % Completed -->
-                                                <span>@tran.Date.ToString("D")</span>
-                                            </p>
+                                                <span> | @tran.Date.ToString("D")</span>
+                                            </span>
                                         </li>
                                     }
                                 </ul>
@@ -89,7 +89,10 @@
                                                     </td>
                                                     <td>
                                                         <a href="@Url.Action("Edit", "Accounts", new { id = item.Id })"><i class="fa fa-pencil btn btn-xs btn-warning"></i></a>
-                                                        <a href="@Url.Action("Delete", "Accounts", new { id = item.Id })"><i class="fa fa-times btn btn-xs btn-danger"></i></a>
+                                                        <span class="delete-section">
+                                                            <a class="delete-link" href="@Url.Action("Delete", new {id = item.Id})"><i class="fa fa-close btn btn-xs btn-danger"></i></a>
+                                                            <span class="btn btn-danger btn-xs delete-confirm" style="display:none" data-delete-id="@item.Id">Confirm Delete</span>
+                                                        </span>
                                                     </td>
                                                 </tr>
                                             }
@@ -198,7 +201,7 @@
                                                 <th></th>
                                                 <th>BudgetItems</th>
 
-                                                <th>Monthly Transactions</th>
+                                                <th>Transactions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -234,7 +237,7 @@
         <div class="modal-content">
             <div class="container" style="padding:20px;">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                @Html.Action("Create", "BankAccounts")
+                @Html.Action("_CreateBankAccount", "BankAccounts")
                 <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->
@@ -247,7 +250,7 @@
         <div class="modal-content">
             <div class="container" style="padding:20px;">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                @Html.Action("Create", "Transactions")
+                @Html.Action("_CreateTrans", "Transactions")
                 <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Close</button>
             </div>
         </div><!-- /.modal-content -->
@@ -282,8 +285,8 @@
                 },
                 tooltip: {
                     formatter: function () {
-                        return this.series.name + '</b><br/>' +
-                            + '$' + this.point.y + ' ' + this.point.name.toLowerCase();
+                        return this.series.name + '</b><br/>'
+                            + '$' + this.point.y + ' ' + this.point.name;
                     }
                 }
             });

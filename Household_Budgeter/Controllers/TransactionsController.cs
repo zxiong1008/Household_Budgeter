@@ -77,9 +77,10 @@ namespace Household_Budgeter.Controllers
             if (ModelState.IsValid)
             {
                 transaction.Date = new DateTimeOffset(DateTime.Now);
+
                 transaction.UserId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).Id;
 
-                var account = db.BankAccounts.FirstOrDefault(b => b.Id == transaction.BankAccountsId);
+                var account = db.BankAccounts.FirstOrDefault(x => x.Id == transaction.BankAccountsId);
 
                 transaction.ReconciledAmount = transaction.Amount;
 
@@ -88,21 +89,22 @@ namespace Household_Budgeter.Controllers
                     transaction.Reconciled = true;
                 }
 
-                if (transaction.Reconciled == true)
+                if (transaction.Types == true)
                 {
                     account.Balance += transaction.Amount;
                 }
+
                 else
                 {
                     account.Balance -= transaction.Amount;
                 }
-                
+
                 db.Transactions.Add(transaction);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BankAccountsId = new SelectList(db.BankAccounts, "Id", "Name", transaction.BankAccountsId);
+            ViewBag.AccountId = new SelectList(db.BankAccounts, "Id", "Name", transaction.BankAccountsId);
             ViewBag.CategoryId = new SelectList(db.Category, "Id", "Name", transaction.CategoryId);
             return View(transaction);
         }
@@ -164,7 +166,8 @@ namespace Household_Budgeter.Controllers
                     transaction.Reconciled = false;
                 }
 
-                if(transaction.Types == true)
+                // Reverse original balance calculation
+                if (transaction.Types == true)
                 {
                     account.Balance -= original.Amount;
                 }
@@ -172,14 +175,16 @@ namespace Household_Budgeter.Controllers
                 {
                     account.Balance += original.Amount;
                 }
-
-                if(transaction.Types == true)
+                // New edit balance calculation
+                if (transaction.Types == true)
                 {
                     account.Balance += transaction.Amount;
+
                 }
                 else
                 {
                     account.Balance -= transaction.Amount;
+
                 }
 
 
