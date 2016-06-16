@@ -3,13 +3,29 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    <link href="~/Content/Budget.css" rel="stylesheet" />
-    <link href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet" />
-    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
+    <link href="~/content/budget.css" rel="stylesheet" />
+    <link href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <!-- MetisMenu CSS -->
+    <link href="../Assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Timeline CSS -->
+    <link href="../Assets/dist/css/timeline.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="../Assets/dist/css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="../Assets/bower_components/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="../Assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
     <style>
         body {
             padding: 0;
@@ -18,106 +34,343 @@
 
 </head>
 <body>
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-    <div class="div-col-3" id="sidebar">
-        <br />
-        <ul class="nav nav-pills nav-stacked text-center navbar-collapse">
-            <li>
-                <a href="@Url.Action("Index", "Home")" id="budgetlogo">
-                    <img src="https://sparkleandshinesami.files.wordpress.com/2013/06/saving-money.jpg?w=300&h=199" class="img-rounded img-responsive" id="side-img" />
-                </a>
-            </li>
-            <li role="presentation" class="dropdown">
-                <a class="dropdown-toggle text-center" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-plus-square"></i>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top right" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <ul class="nav navbar-top-links navbar-right">
+
+                    <!-- /.dropdown -->
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @Html.Raw("Welcome " + Html.Raw(Html.Action("GetCurrentUserName", "Account")))
+                        <li class="dropdown pull-right">
+                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out"></i> Log off</a>
+                            }
+                        </li>
                     }
                     else
                     {
-                        @Html.Raw("Household Budget App")
+                        <li>
+                            @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <select name="Email" onchange="this.form.submit()" class="btn btn-default">
+                                    <option>Select Demo User </option>
+                                    <option value="zxiong1008@gmail.com">Zeng</option>
+                                    <option value="Admin@HouseholdBudget.com">Admin</option>
+                                    <option value="Husband@HouseholdBudget.com">Husband</option>
+                                    <option value="Wife@HouseholdBudget.com">Wife</option>
+                                    <option value="Son@HouseholdBudget.com">Son</option>
+                                    <option value="Daughter@HouseholdBudget.com">Daughter</option>
+                                </select>
+                            }
+                        </li>
+                        <li><a href="@Url.Action("Register", "Account" )"><i class="fa fa-user-plus"></i> Register</a></li>
+                        <li><a href="@Url.Action("Login", "Account" )">Log in <i class="fa fa-sign-in"></i></a></li>
                     }
+                    <li class="dropdown ">
 
-                </a>
-                <ul class="dropdown-menu">
-                    <li><a href="@Url.Action("Index", "Home")"><span class="fa fa-home fa-2x"></span> Home</a></li>
-                    <li><a href="@Url.Action("Index", "Manage")"><span class="fa fa-user fa-2x"></span> Profile</a></li>
-                    <li><a href="@Url.Action("About", "Home")"><span class="fa fa-magic fa-2x"></span> About</a></li>
-                    <li><a href="@Url.Action("Contact", "Home")"><span class="fa fa-phone fa-2x"></span> Contact</a></li>
-                    <li><a href="http://github.com/zxiong1008" target="_blank"><i class="fa fa-github fa-2x"></i> Zeng's GitHub</a></li>
-                    <li><a href="http://zengxiong.azurewebsites.net/" target="_blank"><i class="fa fa-black-tie fa-2x"></i> Zeng's Blog</a></li>
-                    <li><a href="http://zxiong-bugtracker.azurewebsites.net/" target="_blank"><i class="fa fa-bug fa-2x"></i> BugTracker</a></li>
-
-
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a class="dropdown-toggle pull-right" data-toggle="dropdown" href="#">
+                                <i class="fa fa-caret-down"></i>
+                                @Html.Raw("Welcome " + Html.Action("GetCurrentUserName", "Account"))
+                                <i class="fa fa-user fa-fw"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a class="dropdown-toggle pull-left" data-toggle="dropdown" href="#">
+                                <i class="fa fa-plus-square"></i>
+                                @Html.Raw("Household Budget App")
+                            </a>
+                        }
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="@Url.Action("Index", "Home" )"><span class="fa fa-home fa-"></span> Home</a></li>
+                            <li><a href="@Url.Action("Index", "Manage" )"><span class="fa fa-user fa-"></span> Profile</a></li>
+                            <li><a href="@Url.Action("About", "Home" )"><span class="fa fa-magic fa-"></span> About</a></li>
+                            <li><a href="@Url.Action("Contact", "Home" )"><span class="fa fa-phone fa-"></span> Contact</a></li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
                 </ul>
-            </li>
+
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-top-links -->
             @if (User.Identity.IsAuthenticated)
             {
-                <li><a href="@Url.Action("Dashboard", "Home")" class="text-center"><i class="fa fa-calculator fa-2x"></i> Household Budgeter Application</a></li>
-                <li><a href="@Url.Action("Index", "HouseHolds")"><i class="fa fa-group fa-2x"></i> Household</a></li>
-                <li><a href="@Url.Action("Index", "Invitations")"><i class="fa fa-envelope fa-2x"></i> Invitations</a></li>
-                <li><a href="@Url.Action("Index", "BankAccounts")"><i class="fa fa-bank fa-2x"></i> BankAccounts</a></li>
-                <li><a href="@Url.Action("Index", "Transactions")"><i class="fa fa-archive fa-2x"></i> Transactions</a></li>
-                <li><a href="@Url.Action("Index", "Budgets")"><i class="fa fa-balance-scale fa-2x"></i> Budgets</a></li>
-                <li><a href="@Url.Action("Index", "BudgetItems")"><i class="fa fa-cubes fa-2x"></i> BudgetItems</a></li>
-                <li><a href="@Url.Action("Index", "Categories")"><i class="fa fa-database fa-2x"></i> Categories</a></li>
+                <div class="navbar-default sidebar" role="navigation">
+                    <div class="sidebar-nav navbar-collapse collapse in" id="myCollapsible">
+                        <ul class="nav" id="side-menu">
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-caret-down"></i> About Zeng</a>
+                                <ul class="dropdown-menu text-center">
+                                    <li><a href="http://linkedin.com/in/zengxiong" target="_blank"><i class="fa fa-linkedin-square fa-"></i> Zeng's LinkedIn</a></li>
+                                    <li><a href="http://github.com/zxiong1008" target="_blank"><i class="fa fa-github fa-"></i> Zeng's GitHub</a></li>
+                                    <li><a href="http://zengxiong.azurewebsites.net/" target="_blank"><i class="fa fa-black-tie fa-"></i> Zeng's Blog</a></li>
+                                    <li><a href="http://zxiong-bugtracker.azurewebsites.net/" target="_blank"><i class="fa fa-bug fa-"></i> BugTracker</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="@Url.Action("Dashboard", "Home" )"><i class="fa fa-calculator"></i> Household Budgeter Application</a></li>
+                            <li><a href="@Url.Action("Index", "HouseHolds" )"><i class="fa fa-group"></i> Household</a></li>
+                            <li><a href="@Url.Action("Index", "Invitations" )"><i class="fa fa-envelope"></i> Invitations</a></li>
+                            <li><a href="@Url.Action("Index", "BankAccounts" )"><i class="fa fa-bank"></i> BankAccounts</a></li>
+                            <li><a href="@Url.Action("Index", "Transactions" )"><i class="fa fa-archive"></i> Transactions</a></li>
+                            <li><a href="@Url.Action("Index", "Budgets" )"><i class="fa fa-balance-scale"></i> Budgets</a></li>
+                            <li><a href="@Url.Action("Index", "BudgetItems" )"><i class="fa fa-cubes"></i> BudgetItems</a></li>
+                            <li><a href="@Url.Action("Index", "Categories" )"><i class="fa fa-database"></i> Categories</a></li>
+                        </ul>
+                    </div>
+                    <!-- /.sidebar-collapse -->
+                </div>
+            }
+
+
+            <!-- /.navbar-static-side -->
+        </nav>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div id="page-wrapper">
+                @RenderBody()
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-comments fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">26</div>
+                                        <div>New Comments!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-tasks fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">12</div>
+                                        <div>New Tasks!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-yellow">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-shopping-cart fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">124</div>
+                                        <div>New Orders!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-red">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-support fa-5x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <div class="huge">13</div>
+                                        <div>Support Tickets!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <div class="panel-footer">
+                                    <span class="pull-left">View Details</span>
+                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- /#page-wrapper -->
+        }
+        else
+        {
+            <div class="container body-content">
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                </footer>
+            </div>
+        }
+    </div>
+    <!-- /#wrapper -->
+    @*<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <div class="div-col-3" id="sidebar">
+            <br />
+            <ul class="nav nav-pills nav-stacked text-center navbar-collapse">
+                <li class="metisMenu" id="menu">
+                    <a href="@Url.Action(" Index", "Home" )" id="budgetlogo">
+                        <img src="https://sparkleandshinesami.files.wordpress.com/2013/06/saving-money.jpg?w=300&h=199" class="img-rounded img-responsive" id="side-img" />
+                    </a>
+                </li>
+                <li role="presentation" class="dropdown">
+                    <a class="dropdown-toggle text-center" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-plus-square"></i>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                        @Html.Raw("Welcome " + Html.Raw(Html.Action("GetCurrentUserName", "Account")))
+                        }
+                        else
+                        {
+                        @Html.Raw("Household Budget App")
+                        }
+
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("Index", "Home" )"><span class="fa fa-home fa-"></span> Home</a></li>
+                        <li><a href="@Url.Action("Index", "Manage" )"><span class="fa fa-user fa-"></span> Profile</a></li>
+                        <li><a href="@Url.Action("About", "Home" )"><span class="fa fa-magic fa-"></span> About</a></li>
+                        <li><a href="@Url.Action("Contact", "Home" )"><span class="fa fa-phone fa-"></span> Contact</a></li>
+                        <li><a href="http://linkedin.com/in/zengxiong" target="_blank"><i class="fa fa-linkedin-square fa-"></i> Zeng's LinkedIn</a></li>
+                        <li><a href="http://github.com/zxiong1008" target="_blank"><i class="fa fa-github fa-"></i> Zeng's GitHub</a></li>
+                        <li><a href="http://zengxiong.azurewebsites.net/" target="_blank"><i class="fa fa-black-tie fa-"></i> Zeng's Blog</a></li>
+                        <li><a href="http://zxiong-bugtracker.azurewebsites.net/" target="_blank"><i class="fa fa-bug fa-"></i> BugTracker</a></li>
+
+
+                    </ul>
+                </li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                <li><a href="@Url.Action("Dashboard", "Home" )" class="text-center"><i class="fa fa-calculator fa-"></i> Household Budgeter Application</a></li>
+                <li><a href="@Url.Action("Index", "HouseHolds" )"><i class="fa fa-group fa-"></i> Household</a></li>
+                <li><a href="@Url.Action("Index", "Invitations" )"><i class="fa fa-envelope fa-"></i> Invitations</a></li>
+                <li><a href="@Url.Action("Index", "BankAccounts" )"><i class="fa fa-bank fa-"></i> BankAccounts</a></li>
+                <li><a href="@Url.Action("Index", "Transactions" )"><i class="fa fa-archive fa-"></i> Transactions</a></li>
+                <li><a href="@Url.Action("Index", "Budgets" )"><i class="fa fa-balance-scale fa-"></i> Budgets</a></li>
+                <li><a href="@Url.Action("Index", "BudgetItems" )"><i class="fa fa-cubes fa-"></i> BudgetItems</a></li>
+                <li><a href="@Url.Action("Index", "Categories" )"><i class="fa fa-database fa-"></i> Categories</a></li>
                 <li>
                     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post))
                     {
-                        @Html.AntiForgeryToken()
-                        <div class="form-group">
-                            <input type="submit" value="&#xf08b; LogOff" class="btn btn-block fa fa-2x" id="LogOff"/>
-                        </div>
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <input type="submit" value="&#xf08b; LogOff" class="btn btn-block fa fa-" id="LogOff" />
+                    </div>
                     }
                 </li>
-            }
-            else
-            {
+                }
+                else
+                {
                 <li>
                     @using (Html.BeginForm("DemoLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                     {
-                        @Html.AntiForgeryToken()
-                        <select name="Email" onchange="this.form.submit()" class="btn btn-success">
-                            <option>Select Demo User </option>
-                            <option value="zxiong1008@gmail.com">Zeng</option >
-                            <option value="Admin@HouseholdBudget.com">Admin</option>
-                            <option value="Husband@HouseholdBudget.com">Husband</option >
-                            <option value="Wife@HouseholdBudget.com">Wife</option>
-                            <option value="Son@HouseholdBudget.com">Son</option >
-                            <option value="Daughter@HouseholdBudget.com">Daughter</option>
-                        </select>
+                    @Html.AntiForgeryToken()
+                    <select name="Email" onchange="this.form.submit()" class="btn btn-success">
+                        <option>Select Demo User </option>
+                        <option value="zxiong1008@gmail.com">Zeng</option>
+                        <option value="Admin@HouseholdBudget.com">Admin</option>
+                        <option value="Husband@HouseholdBudget.com">Husband</option>
+                        <option value="Wife@HouseholdBudget.com">Wife</option>
+                        <option value="Son@HouseholdBudget.com">Son</option>
+                        <option value="Daughter@HouseholdBudget.com">Daughter</option>
+                    </select>
                     }
                 </li>
-                <li><a href="@Url.Action("Register", "Account")"><i class="fa fa-user-plus fa-2x"></i> Register</a></li>
-                <li><a href="@Url.Action("Login", "Account")">Log in <i class="fa fa-sign-in fa-2x"></i></a></li>
-            }
-        </ul>
-    </div>
+                <li><a href="@Url.Action(" Register", "Account" )"><i class="fa fa-user-plus fa-"></i> Register</a></li>
+                <li><a href="@Url.Action(" Login", "Account" )">Log in <i class="fa fa-sign-in fa-"></i></a></li>
+                }
+            </ul>
+        </div>*@
 
 
-    <div id="main">
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-        </div>
-    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="~/Assets/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="~/Assets/bower_components/raphael/raphael-min.js"></script>
+
+    <script src="~/Assets/js/morris-data.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Assets/dist/js/sb-admin-2.js"></script>
 
     <script src="~/Scripts/tinymce/js/tinymce/tinymce.min.js"></script>
     <script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/jquery.dotdotdot.js"></script>
+
+    @*
+        <script src="~/Scripts/jquery.dotdotdot.js"></script>*@
+
+    <script>
+        $(document).on('click', function () {
+            $('.navbar-collapse').collapse('hide');
+        })
+        $('#myCollapsible').ready(function () {
+            $('.navbar-collapse.in').collapse('show');
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#transactionTable').DataTable();
+            $('#categoriesTable').DataTable();
+            $('#budgetItemsTable').DataTable();
+            $('#budgetsTable').DataTable(/*{ "pageLength": 5 }*/);
+        });
+    </script>
+
 
     <script>
         $(function () {
@@ -180,68 +433,53 @@
             };
         });
     </script>
-   
 
-    <script>
-        $(document).ready(function () {
-            $('#transactionTable').DataTable();
-            $('#categoriesTable').DataTable();
-            $('#budgetItemsTable').DataTable();
-            $('#budgetsTable').DataTable(/*{ "pageLength": 5 }*/);
-        });
-    </script>
+    @*
+        <script>
+                $(document).ready(function () {
+                    $("[id^=wrapper]").dotdotdot({
+                        /*	The text to add as ellipsis. */
+                        ellipsis: '... ',
+                        /*	How to cut off the text/html: 'word'/'letter'/'children' */
+                        wrap: 'word',
+                        /*	Wrap-option fallback to 'letter' for long words */
+                        fallbackToLetter: true,
+                        /*	jQuery-selector for the element to keep and put after the ellipsis. */
+                        after: null,
+                        /*	Whether to update the ellipsis: true/'window' */
+                        watch: false,
+                        /*	Optionally set a max-height, can be a number or function.
+                            If null, the height will be measured. */
+                        height: 10,
+                        /*	Deviation for the height-option. */
+                        tolerance: 0,
+                        /*	Callback function that is fired after the ellipsis is added,
+                            receives two parameters: isTruncated(boolean), orgContent(string). */
+                        callback: function (isTruncated, orgContent) { },
+                        lastCharacter: {
+                            /*	Remove these characters from the end of the truncated text. */
+                            remove: [' ', ',', ';', '.', '!', '?'],
+                            /*	Don't add an ellipsis if this array contains
+                                the last character of the truncated text. */
+                            noEllipsis: []
+                        }
+                    });
+                })
+        </script>*@
 
-    <script>
-        $(document).ready(function () {
-            $("[id^=wrapper]").dotdotdot({
-                /*	The text to add as ellipsis. */
-                ellipsis: '... ',
+    @*
+        <script type="text/javascript">
+                tinymce.init({
+                    selector: "textarea",
+                    height: 100,
+                    toolbar: "insertfile undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link",
+                    statusbar: false,
+                    menubar: false
+                });
+        </script>*@
 
-                /*	How to cut off the text/html: 'word'/'letter'/'children' */
-                wrap: 'word',
 
-                /*	Wrap-option fallback to 'letter' for long words */
-                fallbackToLetter: true,
 
-                /*	jQuery-selector for the element to keep and put after the ellipsis. */
-                after: null,
-
-                /*	Whether to update the ellipsis: true/'window' */
-                watch: false,
-
-                /*	Optionally set a max-height, can be a number or function.
-                    If null, the height will be measured. */
-                height: 10,
-
-                /*	Deviation for the height-option. */
-                tolerance: 0,
-
-                /*	Callback function that is fired after the ellipsis is added,
-                    receives two parameters: isTruncated(boolean), orgContent(string). */
-                callback: function (isTruncated, orgContent) { },
-
-                lastCharacter: {
-
-                    /*	Remove these characters from the end of the truncated text. */
-                    remove: [' ', ',', ';', '.', '!', '?'],
-
-                    /*	Don't add an ellipsis if this array contains
-                        the last character of the truncated text. */
-                    noEllipsis: []
-                }
-            });
-        })
-    </script>
-
-    @*<script type="text/javascript">
-        tinymce.init({
-            selector: "textarea",
-            height: 100,
-            toolbar: "insertfile undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link",
-            statusbar: false,
-            menubar: false
-        });
-    </script>*@
 
 </body>
 </html>
