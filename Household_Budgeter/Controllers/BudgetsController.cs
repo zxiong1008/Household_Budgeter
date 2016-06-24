@@ -98,15 +98,11 @@ namespace Household_Budgeter.Controllers
             //then the user's budget
             Budget budget = db.Budgets.FirstOrDefault(b => b.Id == id);
 
-            BudgetItem budgetItem = db.BudgetItems.FirstOrDefault(b => b.Id == budget.Id);
-
+            BudgetItem budgetItem = db.BudgetItems.FirstOrDefault(b => b.Id == id);
+            
             //then the budget's household owner
-            Household household = db.Households.FirstOrDefault(h => h.Id == budgetItem.Id);
+            Household household = db.Households.FirstOrDefault(h => h.Id == budget.Id);
 
-            if (!household.Members.Contains(user))
-            {
-                return RedirectToAction("Unauthorized", "Error");
-            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -128,6 +124,8 @@ namespace Household_Budgeter.Controllers
         {
             if (ModelState.IsValid)
             {
+                budget.HouseHoldId = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name).HouseholdId.Value;
+
                 db.Entry(budget).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

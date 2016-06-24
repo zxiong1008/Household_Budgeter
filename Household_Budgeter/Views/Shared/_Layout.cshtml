@@ -12,19 +12,19 @@
     <link href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/font-awesome.css" rel="stylesheet" />
     <!-- MetisMenu CSS -->
-    <link href="../Assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="~/Assets/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
 
     <!-- Timeline CSS -->
-    <link href="../Assets/dist/css/timeline.css" rel="stylesheet">
+    <link href="~/Assets/dist/css/timeline.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="../Assets/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="~/Assets/dist/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
-    <link href="../Assets/bower_components/morrisjs/morris.css" rel="stylesheet">
+    <link href="~/Assets/bower_components/morrisjs/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../Assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Assets/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <style>
         body {
@@ -141,9 +141,10 @@
         @if (User.Identity.IsAuthenticated)
         {
             <div id="page-wrapper">
+                <br />
                 @RenderBody()
                 <!-- /.row -->
-                <div class="row">
+                @*<div class="row">
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -232,7 +233,7 @@
                             </a>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
         <!-- /#page-wrapper -->
         }

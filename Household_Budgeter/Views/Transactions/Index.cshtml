@@ -3,8 +3,6 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<br />
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-success">
@@ -86,9 +84,13 @@
                                 </td>
                                 <td>
                                     @if (item.Reconciled == true)
-                                    { <span class="label label-success">Success</span>}
+                                    {
+                                        <span class="label label-success">Success</span>
+                                    }
                                     else
-                                    { <span class="label label-warning">Failed</span>}
+                                    {
+                                        <span class="label label-warning">Failed</span>
+                                    }
                                 </td>
                                 <td>
                                     <a href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-pencil btn btn-xs btn-warning"></i></a>

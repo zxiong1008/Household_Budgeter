@@ -42,14 +42,24 @@
                                                     }
                                                     | @string.Format("{0:C}", tran.Amount) | @tran.BankAccounts.Name | @tran.Category.Name
                                                 </span>
+
+                                                <span class="p-meta">
+                                                    @if (tran.Description != null)
+                                                    {
+                                                        <span> | @tran.Description</span>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.Raw("| ")
+                                                        <span class="text-muted">@Html.Raw("Null")</span>
+                                                    }
+                                                </span>
+                                                <span class="p-meta">
+                                                    <!-- Due date & % Completed -->
+                                                    <span> | @tran.Date.ToString("D")</span>
+                                                </span>
                                             </p>
-                                            <span class="p-meta">
-                                                <span> | @tran.Description</span>
-                                            </span>
-                                            <span class="p-meta">
-                                                <!-- Due date & % Completed -->
-                                                <span> | @tran.Date.ToString("D")</span>
-                                            </span>
                                         </li>
                                     }
                                 </ul>
@@ -178,18 +188,18 @@
                                     {
                                         @Html.AntiForgeryToken()
                                         <div class="form-group">
-                                            <div class="col-md-2 col-md-offset-2">
-                                                <b>Begin Date:</b>
-                                                <h4> @Html.DisplayFor(c => c.begin, new { @class = " panel form-control" })</h4>
+                                            <div class="col-md-3">
+                                                <b class="pull-right">Begin Date:</b>
+                                                <h4 class="pull-right"> @Html.DisplayFor(c => c.begin, new { @class = "panel form-control" })</h4>
                                             </div>
                                             <div class="col-md-1">
                                                 <br />
                                                 <h4>To</h4>
                                             </div>
-                                            <div class="col-md-2">
+                                            <div class="col-md-3">
                                                 <b>End Date:</b>
                                                 <h4>
-                                                    @Html.DisplayFor(c => c.end, new { @class = " panel endDate form-control" })
+                                                    @Html.DisplayFor(c => c.end, new { @class = "panel endDate form-control" })
                                                 </h4>
                                             </div>
                                         </div>

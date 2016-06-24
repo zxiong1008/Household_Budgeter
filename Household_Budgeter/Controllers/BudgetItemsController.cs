@@ -105,16 +105,9 @@ namespace Household_Budgeter.Controllers
             //then identify the user's budgetitems
             BudgetItem budgetItem = db.BudgetItems.FirstOrDefault(b => b.Id == id);
 
-            //then the budgetitem's budget owner
-            Budget budget = db.Budgets.FirstOrDefault(b => b.Id == budgetItem.Id);
-
             //then the budget's household owner
-            Household household = db.Households.FirstOrDefault(h => h.Id == budget.Id);
+            Household household = db.Households.FirstOrDefault(h => h.Id == budgetItem.Id);
 
-            if (!household.Members.Contains(user))
-            {
-                return RedirectToAction("Unauthorized", "Error");
-            }
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
